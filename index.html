@@ -1,619 +1,511 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-    <title>Algebraic Duel 3D | Delicias Georgina</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --cream: #faf5ef; --beige: #e8d9c4; --brown: #8b5e3c; --brown-dark: #5c3d2e;
-            --gold: #c9a227; --coral: #e07a5f; --success: #2a9d8f; --danger: #e63946;
-            --text: #3d2b1f; --text-light: #7a6a5a; --white: #fffdf9;
-        }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: 'Poppins', sans-serif;
-            background: linear-gradient(160deg, #faf5ef 0%, #f5ebe0 50%, #faf5ef 100%);
-            color: var(--text); min-height: 100vh; line-height: 1.55;
-        }
-        h1, h2, h3 { font-family: 'Playfair Display', serif; }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Algebraic Duel 3D | Delicias Georgina</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --cream: #faf5ef; --beige: #e8d9c4; --brown: #8b5e3c; --brown-dark: #5c3d2e;
+      --gold: #c9a227; --coral: #e07a5f; --success: #2a9d8f; --danger: #e63946;
+      --text: #3d2b1f; --text-light: #7a6a5a; --white: #fffdf9;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(160deg, #faf5ef 0%, #f5ebe0 50%, #faf5ef 100%);
+      color: var(--text); min-height: 100vh;
+    }
+    h1, h2, h3 { font-family: 'Playfair Display', serif; }
 
-        .navbar {
-            position: sticky; top: 0; z-index: 1000;
-            background: rgba(255,253,249,0.97); backdrop-filter: blur(12px);
-            border-bottom: 1px solid var(--beige); padding: 10px 14px;
-            display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px;
-        }
-        .nav-brand { display: flex; align-items: center; gap: 8px; text-decoration: none; color: var(--brown-dark); }
-        .nav-brand img { width: 42px; height: 42px; border-radius: 50%; object-fit: cover; border: 2px solid var(--gold); }
-        .nav-brand span { font-family: 'Playfair Display', serif; font-weight: 700; font-size: 1.1rem; }
-        .nav-links { display: flex; gap: 5px; }
-        .nav-btn {
-            padding: 7px 14px; border-radius: 50px; border: none; background: transparent;
-            color: var(--brown); font-weight: 600; font-size: 0.88rem; cursor: pointer;
-        }
-        .nav-btn.active, .nav-btn:hover { background: linear-gradient(135deg, var(--coral), #d4654a); color: white; }
+    .navbar {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(255,253,249,0.97); backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--beige); padding: 12px 16px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .nav-brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--brown-dark); }
+    .nav-brand img { width: 42px; height: 42px; border-radius: 50%; object-fit: cover; border: 2px solid var(--gold); }
+    .nav-brand span { font-weight: 700; font-size: 1.15rem; }
 
-        .main-container { max-width: 900px; margin: 0 auto; padding: 16px 12px 90px; }
-        .card { background: var(--white); border-radius: 20px; box-shadow: 0 8px 30px rgba(139,94,60,0.12); border: 1px solid var(--beige); overflow: hidden; }
-        .section { display: none; animation: fadeIn 0.4s ease; }
-        .section.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+    .container { max-width: 520px; margin: 0 auto; padding: 20px 16px 80px; }
+    .card {
+      background: var(--white); border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(139,94,60,0.12);
+      border: 1px solid var(--beige); padding: 28px 22px;
+    }
 
-        .hero { text-align: center; padding: 28px 18px 18px; }
-        .hero-logo { width: 130px; height: 130px; margin: 0 auto 14px; border-radius: 50%; overflow: hidden; border: 4px solid white; box-shadow: 0 12px 32px rgba(139,94,60,0.22); animation: float 5s ease-in-out infinite; }
-        .hero-logo img { width: 100%; height: 100%; object-fit: cover; }
-        @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-9px)} }
-        .brand-badge { display: inline-block; background: linear-gradient(135deg,#c9a227,#e0b84a); color: white; padding: 5px 16px; border-radius: 50px; font-size: 0.85rem; font-weight: 600; margin-bottom: 10px; }
-        .hero h1 { font-size: 2.1rem; color: var(--brown-dark); margin-bottom: 4px; }
-        .hero h2 { font-size: 1.15rem; color: var(--text-light); font-weight: 500; margin-bottom: 14px; }
-        .info-box { background: linear-gradient(135deg,#faf5ef,#f5ebe0); border: 1px solid var(--beige); border-radius: 14px; padding: 14px 16px; margin: 14px 0; text-align: left; font-size: 0.9rem; color: var(--text-light); }
-        .info-box strong { color: var(--brown-dark); }
-        .cta-btn { display: inline-flex; align-items: center; gap: 8px; padding: 13px 28px; border-radius: 50px; border: none; background: linear-gradient(135deg,var(--coral),#d4654a); color: white; font-size: 1.05rem; font-weight: 700; cursor: pointer; box-shadow: 0 8px 24px rgba(224,122,95,0.4); margin-top: 8px; }
+    .hero { text-align: center; }
+    .hero-logo {
+      width: 120px; height: 120px; margin: 0 auto 16px;
+      border-radius: 50%; overflow: hidden; border: 4px solid white;
+      box-shadow: 0 10px 25px rgba(139,94,60,0.2);
+    }
+    .hero-logo img { width: 100%; height: 100%; object-fit: cover; }
+    .brand-badge {
+      display: inline-block; background: linear-gradient(135deg,#c9a227,#e0b84a);
+      color: white; padding: 5px 16px; border-radius: 50px;
+      font-size: 0.85rem; font-weight: 600; margin-bottom: 12px;
+    }
+    .hero h1 { font-size: 1.9rem; color: var(--brown-dark); margin-bottom: 4px; }
+    .hero h2 { font-size: 1.1rem; color: var(--text-light); margin-bottom: 20px; }
 
-        .accordion { margin: 16px 0 8px; text-align: left; }
-        .accordion-item { margin-bottom: 9px; border: 1px solid var(--beige); border-radius: 12px; overflow: hidden; background: white; }
-        .accordion-header { padding: 13px 16px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; background: linear-gradient(135deg,#faf5ef,#f5ebe0); font-weight: 600; color: var(--brown-dark); font-size: 0.95rem; }
-        .accordion-header .arrow { transition: transform 0.3s; color: var(--coral); }
-        .accordion-header.active .arrow { transform: rotate(180deg); }
-        .accordion-content { max-height: 0; overflow: hidden; transition: max-height 0.45s ease; }
-        .accordion-content.show { max-height: 1200px; }
-        .accordion-content-inner { padding: 14px 16px; border-top: 1px solid var(--beige); font-size: 0.9rem; }
-        .accordion-content-inner ul { list-style: none; padding: 0; }
-        .accordion-content-inner li { padding: 4px 0; display: flex; gap: 7px; }
+    .btn {
+      width: 100%; padding: 14px; border: none; border-radius: 14px;
+      font-size: 1.05rem; font-weight: 700; cursor: pointer;
+      font-family: inherit; margin-top: 10px; transition: 0.25s;
+    }
+    .btn-primary { background: linear-gradient(135deg, var(--coral), #d4654a); color: white; }
+    .btn-success { background: linear-gradient(135deg, var(--success), #21867a); color: white; }
+    .btn-outline { background: white; border: 2px solid var(--beige); color: var(--brown); }
+    .btn:disabled { opacity: 0.6; cursor: not-allowed; }
 
-        /* REGISTRO SECUENCIAL */
-        .setup-header { text-align: center; padding: 22px 16px 10px; }
-        .setup-header h2 { color: var(--brown-dark); font-size: 1.65rem; }
-        .player-step { display: none; padding: 10px 16px 20px; }
-        .player-step.active { display: block; animation: fadeIn 0.4s ease; }
-        .step-title { text-align: center; font-weight: 700; color: var(--coral); margin-bottom: 14px; font-size: 1.15rem; }
-        .floating-label { position: relative; margin-bottom: 14px; }
-        .floating-label input { width: 100%; padding: 13px 14px; border: 2px solid var(--beige); border-radius: 12px; background: white; font-size: 0.97rem; outline: none; font-family: inherit; }
-        .floating-label input:focus { border-color: var(--coral); box-shadow: 0 0 0 3px rgba(224,122,95,0.15); }
-        .floating-label label { position: absolute; left: 12px; top: -8px; background: var(--white); padding: 0 6px; color: var(--brown); font-size: 0.78rem; font-weight: 600; }
-        .btn-main { width: 100%; padding: 14px; border: none; border-radius: 12px; font-size: 1.02rem; font-weight: 700; cursor: pointer; font-family: inherit; }
-        .btn-next { background: linear-gradient(135deg, var(--success), #21867a); color: white; margin-top: 6px; }
-        .btn-back { background: var(--brown); color: white; margin-top: 8px; }
-        .btn-start { background: linear-gradient(135deg, var(--coral), #d4654a); color: white; margin-top: 10px; }
+    .input-group { margin-bottom: 14px; text-align: left; }
+    .input-group label { display: block; font-size: 0.85rem; font-weight: 600; color: var(--brown); margin-bottom: 5px; }
+    .input-group input {
+      width: 100%; padding: 13px 14px; border: 2px solid var(--beige);
+      border-radius: 12px; font-size: 1rem; font-family: inherit; outline: none;
+    }
+    .input-group input:focus { border-color: var(--coral); }
 
-        /* ARENILLA / ESPERA */
-        .waiting-box {
-            text-align: center; padding: 40px 20px;
-            display: none;
-        }
-        .waiting-box.active { display: block; animation: fadeIn 0.4s ease; }
-        .hourglass {
-            font-size: 4rem; animation: spin 2s linear infinite;
-            display: inline-block; margin-bottom: 16px;
-        }
-        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-        .waiting-text { font-size: 1.15rem; color: var(--brown-dark); font-weight: 600; }
-        .waiting-sub { color: var(--text-light); margin-top: 8px; font-size: 0.95rem; }
+    .room-code {
+      font-size: 2.2rem; font-weight: 700; letter-spacing: 4px;
+      color: var(--coral); text-align: center; margin: 16px 0;
+      background: #fff8f0; padding: 12px; border-radius: 12px;
+      border: 2px dashed var(--gold);
+    }
 
-        .registered-list { margin: 16px 0; text-align: left; }
-        .registered-item {
-            background: #f8f4ef; border-radius: 10px; padding: 10px 14px;
-            margin-bottom: 8px; display: flex; align-items: center; gap: 10px;
-            border: 1px solid var(--beige);
-        }
-        .registered-item .num { background: var(--coral); color: white; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.85rem; }
+    .players-list { margin: 18px 0; }
+    .player-item {
+      display: flex; align-items: center; gap: 12px;
+      background: #f8f4ef; border-radius: 12px; padding: 12px 14px;
+      margin-bottom: 8px; border: 1px solid var(--beige);
+    }
+    .player-num {
+      width: 32px; height: 32px; border-radius: 50%;
+      background: var(--coral); color: white; display: flex;
+      align-items: center; justify-content: center; font-weight: 700;
+    }
+    .waiting-box { text-align: center; padding: 30px 10px; }
+    .hourglass { font-size: 3.5rem; animation: spin 2s linear infinite; display: inline-block; }
+    @keyframes spin { from{transform:rotate(0)} to{transform:rotate(360deg)} }
 
-        /* GAME */
-        .game-header { text-align: center; padding: 16px 12px 4px; }
-        .game-header h2 { color: var(--brown-dark); font-size: 1.5rem; }
-        .progress-text { text-align: center; font-weight: 700; color: var(--brown-dark); font-size: 1rem; margin: 6px 0 4px; }
-        .progress-bar-wrap { margin: 0 12px 12px; background: var(--beige); border-radius: 50px; height: 9px; overflow: hidden; }
-        .progress-bar { height: 100%; background: linear-gradient(90deg, var(--coral), var(--gold)); border-radius: 50px; transition: width 0.35s ease; width: 0%; }
-        .score-board { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; padding: 0 12px 10px; }
-        @media (min-width: 600px) { .score-board { grid-template-columns: repeat(4, 1fr); } }
-        .player-card { background: white; padding: 10px 6px; border-radius: 12px; border: 2px solid var(--beige); text-align: center; font-size: 0.82rem; }
-        .player-card strong { display: block; color: var(--brown-dark); margin-bottom: 2px; font-size: 0.9rem; }
-        .timer-container { display: flex; justify-content: center; margin: 6px 0 12px; }
-        .timer-circle { width: 88px; height: 88px; border-radius: 50%; background: conic-gradient(var(--coral) 0%, var(--beige) 0%); display: flex; align-items: center; justify-content: center; position: relative; box-shadow: 0 6px 20px rgba(224,122,95,0.25); }
-        .timer-circle::before { content: ''; position: absolute; width: 68px; height: 68px; border-radius: 50%; background: var(--white); }
-        .timer-text { position: relative; z-index: 2; font-size: 1.8rem; font-weight: 700; color: var(--brown-dark); }
-        .timer-critical { color: var(--danger) !important; animation: shake 0.4s infinite; }
-        @keyframes shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-3px)} 75%{transform:translateX(3px)} }
-        .question-box { background: white; margin: 0 12px 12px; padding: 16px; border-radius: 14px; border: 2px solid var(--beige); text-align: center; }
-        .question-text { font-size: 1.1rem; font-weight: 600; margin-top: 6px; line-height: 1.4; }
-        .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 0 12px 12px; }
-        .option-btn { padding: 14px 10px; border: none; color: white; font-weight: 600; font-size: 0.92rem; cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 95px; border-radius: 16px; box-shadow: 0 5px 14px rgba(0,0,0,0.14); }
-        .option-btn:nth-child(1) { background: linear-gradient(135deg, #e07a5f, #c45c45); }
-        .option-btn:nth-child(2) { background: linear-gradient(135deg, #2a9d8f, #1d7a6f); }
-        .option-btn:nth-child(3) { background: linear-gradient(135deg, #c9a227, #a8871c); }
-        .option-btn:nth-child(4) { background: linear-gradient(135deg, #8b5e3c, #6a4630); }
-        .option-btn:disabled { opacity: 0.6; cursor: not-allowed; }
-        .option-btn.correct { box-shadow: 0 0 0 3px #2a9d8f; }
-        .option-btn.wrong { opacity: 0.45; }
-        .option-symbol { font-size: 1.7rem; margin-bottom: 3px; }
-        .option-letter { display: inline-block; background: rgba(255,255,255,0.28); width: 24px; height: 24px; border-radius: 50%; line-height: 24px; font-size: 0.8rem; margin-bottom: 3px; }
-        .feedback { text-align: center; font-weight: 700; font-size: 1.08rem; min-height: 28px; padding: 6px 12px; margin: 0 12px 10px; }
-        .next-btn { display: block; width: calc(100% - 24px); margin: 0 12px 18px; padding: 13px; border: none; border-radius: 12px; background: linear-gradient(135deg, var(--success), #21867a); color: white; font-weight: 700; font-size: 1rem; cursor: pointer; }
-        .hidden { display: none !important; }
+    .status-text { text-align: center; color: var(--text-light); margin: 10px 0; font-size: 0.95rem; }
 
-        .end-screen { text-align: center; padding: 26px 16px; }
-        .end-screen h1 { color: var(--brown-dark); margin-bottom: 18px; font-size: 1.8rem; }
-        .podium-card { background: white; padding: 14px; border-radius: 14px; margin-bottom: 10px; border: 1px solid var(--beige); display: flex; align-items: center; gap: 14px; text-align: left; }
-        .podium-medal { font-size: 2.2rem; min-width: 48px; text-align: center; }
-        .podium-info h3 { font-size: 1rem; color: var(--brown-dark); margin-bottom: 2px; }
-        .podium-info .pts { font-size: 1.25rem; font-weight: 700; color: var(--gold); }
+    .hidden { display: none !important; }
 
-        .contact-section { padding: 26px 18px; text-align: center; }
-        .contact-section h2 { color: var(--brown-dark); margin-bottom: 6px; }
-        .social-grid { display: flex; justify-content: center; gap: 14px; flex-wrap: wrap; margin-bottom: 22px; }
-        .social-btn { display: flex; flex-direction: column; align-items: center; gap: 5px; text-decoration: none; color: var(--brown-dark); }
-        .social-btn img { width: 56px; height: 56px; border-radius: 14px; object-fit: cover; border: 2px solid white; box-shadow: 0 5px 14px rgba(0,0,0,0.12); }
-        .email-btn, .whatsapp-btn-big { display: inline-flex; align-items: center; gap: 7px; padding: 11px 20px; border-radius: 50px; font-weight: 700; text-decoration: none; margin: 5px; font-size: 0.95rem; }
-        .email-btn { background: linear-gradient(135deg, #5c6bc0, #3949ab); color: white; }
-        .whatsapp-btn-big { background: linear-gradient(135deg, #25D366, #128C7E); color: white; }
+    /* Game styles (simplified for multiplayer) */
+    .score-board { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 16px; }
+    .player-card { background: white; border: 2px solid var(--beige); border-radius: 12px; padding: 10px; text-align: center; font-size: 0.85rem; }
+    .timer { font-size: 2.5rem; font-weight: 700; text-align: center; color: var(--coral); margin: 12px 0; }
+    .question-box { background: #fff; border: 2px solid var(--beige); border-radius: 14px; padding: 18px; text-align: center; margin-bottom: 16px; }
+    .options { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .option-btn {
+      padding: 16px 10px; border: none; border-radius: 14px; color: white;
+      font-weight: 600; font-size: 0.95rem; cursor: pointer;
+    }
+    .option-btn:nth-child(1){background:linear-gradient(135deg,#e07a5f,#c45c45)}
+    .option-btn:nth-child(2){background:linear-gradient(135deg,#2a9d8f,#1d7a6f)}
+    .option-btn:nth-child(3){background:linear-gradient(135deg,#c9a227,#a8871c)}
+    .option-btn:nth-child(4){background:linear-gradient(135deg,#8b5e3c,#6a4630)}
+    .option-btn:disabled { opacity: 0.6; }
 
-        .footer { background: linear-gradient(135deg, #5c3d2e, #3d2b1f); color: #f5ebe0; text-align: center; padding: 28px 14px 22px; margin-top: 30px; }
-        .footer-logo { width: 58px; height: 58px; border-radius: 50%; object-fit: cover; border: 3px solid var(--gold); margin-bottom: 10px; }
-        .footer h3 { font-family: 'Playfair Display', serif; font-size: 1.25rem; color: white; margin-bottom: 4px; }
-        .footer a { color: var(--gold); text-decoration: none; font-weight: 600; }
-        .footer-socials { display: flex; justify-content: center; gap: 11px; margin: 12px 0 8px; }
-        .footer-socials a img { width: 32px; height: 32px; border-radius: 8px; object-fit: cover; }
-        .footer-bottom { margin-top: 12px; padding-top: 10px; border-top: 1px solid rgba(255,255,255,0.15); font-size: 0.78rem; opacity: 0.7; }
-
-        .whatsapp-float { position: fixed; bottom: 20px; right: 18px; z-index: 999; width: 54px; height: 54px; border-radius: 50%; background: #25D366; display: flex; align-items: center; justify-content: center; box-shadow: 0 6px 22px rgba(37,211,102,0.5); animation: pulse 2.4s infinite; }
-        @keyframes pulse { 0%,100%{box-shadow:0 6px 22px rgba(37,211,102,0.5)} 50%{box-shadow:0 6px 36px rgba(37,211,102,0.75)} }
-        .whatsapp-float svg { width: 26px; height: 26px; fill: white; }
-        .play-float { position: fixed; bottom: 20px; left: 18px; z-index: 999; padding: 12px 20px; border-radius: 50px; background: linear-gradient(135deg, var(--coral), #d4654a); color: white; font-weight: 700; font-size: 0.95rem; box-shadow: 0 6px 22px rgba(224,122,95,0.45); border: none; cursor: pointer; }
-
-        .countdown-overlay { position: fixed; inset: 0; background: rgba(92,61,46,0.92); z-index: 2000; display: flex; flex-direction: column; align-items: center; justify-content: center; color: white; }
-        .countdown-number { font-size: 6rem; font-weight: 700; font-family: 'Playfair Display', serif; }
-    </style>
+    .footer { text-align: center; padding: 30px 16px; color: var(--text-light); font-size: 0.85rem; }
+  </style>
 </head>
 <body>
 
 <nav class="navbar">
-    <a href="#" class="nav-brand" onclick="showSection('home'); return false;">
-        <img src="https://oscidec.com/portafolio/delicias.jpg" alt="Logo" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🍰</text></svg>'">
-        <span>Delicias Georgina</span>
-    </a>
-    <div class="nav-links">
-        <button class="nav-btn active" id="nav-home" onclick="showSection('home')">Inicio</button>
-        <button class="nav-btn" id="nav-setup" onclick="showSection('setup')">Jugar</button>
-        <button class="nav-btn" id="nav-contact" onclick="showSection('contact')">Contacto</button>
-    </div>
+  <a href="#" class="nav-brand">
+    <img src="https://oscidec.com/portafolio/delicias.jpg" alt="Logo" onerror="this.src='https://via.placeholder.com/42'">
+    <span>Delicias Georgina</span>
+  </a>
 </nav>
 
-<button class="play-float" onclick="showSection('setup')">🚀 Jugar</button>
-<a href="https://api.whatsapp.com/send/?phone=50766552649&text=Hola%20Georgina,%20consulta%20sobre%20Algebraic%20Duel&type=phone_number&app_absent=0" target="_blank" class="whatsapp-float">
-    <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-</a>
+<div class="container">
 
-<div class="main-container">
+  <!-- PANTALLA INICIAL -->
+  <div id="screen-home" class="card hero">
+    <div class="hero-logo">
+      <img src="https://oscidec.com/portafolio/delicias.jpg" alt="Logo">
+    </div>
+    <div class="brand-badge">Delicias Georgina</div>
+    <h1>Algebraic Duel 3D</h1>
+    <h2>El Desafío de los Polinomios</h2>
+    <p style="color:var(--text-light); margin-bottom:24px; font-size:0.95rem;">
+      Juego multijugador en tiempo real<br>Cada jugador desde su propio celular
+    </p>
+    <button class="btn btn-primary" onclick="showScreen('create')">👑 Crear Sala (Anfitrión)</button>
+    <button class="btn btn-outline" onclick="showScreen('join')">🔗 Unirme a una Sala</button>
+  </div>
 
-    <!-- INICIO -->
-    <div id="section-home" class="section active">
-        <div class="card">
-            <div class="hero">
-                <div class="hero-logo"><img src="https://oscidec.com/portafolio/delicias.jpg" alt="Logo" onerror="this.parentElement.innerHTML='🍰'"></div>
-                <div class="brand-badge">Delicias Georgina · Repostería</div>
-                <h1>Algebraic Duel 3D</h1>
-                <h2>El Desafío de los Polinomios</h2>
-                <div class="info-box">
-                    <p><strong>👩‍🎓 Estudiante:</strong> Georgina Itzel Flores Ojo<br>
-                    <strong>📚 Universidad Del Istmo</strong><br>
-                    <strong>✈️ Carrera:</strong> Técnico en Servicio para Aerolínea<br>
-                    <strong>👩‍🏫 Profesora:</strong> Mauyuri Meza<br>
-                    <strong>📐 Materia:</strong> Matemáticas I-VIRT-2026-2-AGO-[3-B]<br>
-                    <strong>📋 Actividad:</strong> Juego didáctico interactivo</p>
-                </div>
-                <div class="accordion">
-                    <div class="accordion-item">
-                        <div class="accordion-header" onclick="toggleAccordion(this)"><span>📋 Reglas del Juego</span><span class="arrow">▼</span></div>
-                        <div class="accordion-content"><div class="accordion-content-inner">
-                            <p><strong>👥 Jugadores:</strong> 4 personas (mismo dispositivo)</p>
-                            <p><strong>📝 Preguntas:</strong> 20</p>
-                            <p><strong>⏱️ Tiempo:</strong> 10 segundos por pregunta</p>
-                            <p><strong>🏆 Ganador:</strong> Quien tenga más puntos</p>
-                            <p><strong>➕ Puntos:</strong> +10 por respuesta correcta</p>
-                        </div></div>
-                    </div>
-                    <div class="accordion-item">
-                        <div class="accordion-header" onclick="toggleAccordion(this)"><span>🎯 Objetivos</span><span class="arrow">▼</span></div>
-                        <div class="accordion-content"><div class="accordion-content-inner">
-                            <ul>
-                                <li>✅ Clasificar expresiones algebraicas</li>
-                                <li>✅ Operaciones con monomios y polinomios</li>
-                                <li>✅ Rapidez mental algebraica</li>
-                                <li>✅ Aprendizaje competitivo</li>
-                            </ul>
-                        </div></div>
-                    </div>
-                    <div class="accordion-item">
-                        <div class="accordion-header" onclick="toggleAccordion(this)"><span>📚 Contenido</span><span class="arrow">▼</span></div>
-                        <div class="accordion-content"><div class="accordion-content-inner">
-                            <p>Monomio · Binomio · Trinomio · Polinomio</p>
-                            <p>Suma · Resta · Multiplicación · División · Factorización</p>
-                        </div></div>
-                    </div>
-                </div>
-                <button class="cta-btn" onclick="showSection('setup')">🚀 Jugar Ahora</button>
-            </div>
-        </div>
+  <!-- CREAR SALA -->
+  <div id="screen-create" class="card hidden">
+    <h2 style="text-align:center; color:var(--brown-dark); margin-bottom:8px;">Crear Sala</h2>
+    <p class="status-text">Serás el Anfitrión de la partida</p>
+    <div class="input-group">
+      <label>Tu nombre</label>
+      <input type="text" id="hostName" placeholder="Ej: Georgina">
+    </div>
+    <button class="btn btn-primary" onclick="createRoom()">Crear Sala</button>
+    <button class="btn btn-outline" onclick="showScreen('home')">← Volver</button>
+  </div>
+
+  <!-- UNIRSE A SALA -->
+  <div id="screen-join" class="card hidden">
+    <h2 style="text-align:center; color:var(--brown-dark); margin-bottom:8px;">Unirse a Sala</h2>
+    <div class="input-group">
+      <label>Código de la sala</label>
+      <input type="text" id="joinCode" placeholder="Ej: DUEL-4829" style="text-transform:uppercase; letter-spacing:2px;">
+    </div>
+    <div class="input-group">
+      <label>Tu nombre</label>
+      <input type="text" id="playerName" placeholder="Ej: María López">
+    </div>
+    <button class="btn btn-success" onclick="joinRoom()">Unirme</button>
+    <button class="btn btn-outline" onclick="showScreen('home')">← Volver</button>
+  </div>
+
+  <!-- SALA DE ESPERA -->
+  <div id="screen-lobby" class="card hidden">
+    <h2 style="text-align:center; color:var(--brown-dark);">Sala de Espera</h2>
+    <div class="room-code" id="displayCode">------</div>
+    <p class="status-text" id="lobbyStatus">Esperando jugadores...</p>
+
+    <div class="players-list" id="playersList"></div>
+
+    <div id="hostControls" class="hidden">
+      <button class="btn btn-primary" id="btnStart" onclick="startGame()" disabled>
+        🎮 Iniciar Juego (se necesita 4 jugadores)
+      </button>
     </div>
 
-    <!-- REGISTRO SECUENCIAL -->
-    <div id="section-setup" class="section">
-        <div class="card">
-            <div class="setup-header">
-                <h2>📝 Registro de Jugadores</h2>
-                <p style="color:var(--text-light); font-size:0.92rem;">Registro uno por uno · Anfitrión inicia al final</p>
-            </div>
-
-            <!-- Lista de ya registrados -->
-            <div id="registeredList" class="registered-list" style="padding: 0 16px; display:none;"></div>
-
-            <!-- PASO 1 -->
-            <div id="step1" class="player-step active">
-                <div class="step-title">Jugador 1 de 4</div>
-                <div class="floating-label">
-                    <input type="text" id="p1Name" placeholder="Ej: María López">
-                    <label>Nombre del Jugador 1</label>
-                </div>
-                <div class="floating-label">
-                    <input type="email" id="p1Email" placeholder="Ej: maria@gmail.com">
-                    <label>Correo del Jugador 1</label>
-                </div>
-                <button class="btn-main btn-next" onclick="nextPlayer(1)">✅ Listo · Siguiente</button>
-            </div>
-
-            <!-- ESPERA 1→2 -->
-            <div id="wait1" class="waiting-box">
-                <div class="hourglass">⏳</div>
-                <div class="waiting-text">Esperando al Jugador 2...</div>
-                <div class="waiting-sub">Pásale el dispositivo al siguiente jugador</div>
-            </div>
-
-            <!-- PASO 2 -->
-            <div id="step2" class="player-step">
-                <div class="step-title">Jugador 2 de 4</div>
-                <div class="floating-label">
-                    <input type="text" id="p2Name" placeholder="Ej: Carlos Ruiz">
-                    <label>Nombre del Jugador 2</label>
-                </div>
-                <div class="floating-label">
-                    <input type="email" id="p2Email" placeholder="Ej: carlos@gmail.com">
-                    <label>Correo del Jugador 2</label>
-                </div>
-                <button class="btn-main btn-next" onclick="nextPlayer(2)">✅ Listo · Siguiente</button>
-            </div>
-
-            <!-- ESPERA 2→3 -->
-            <div id="wait2" class="waiting-box">
-                <div class="hourglass">⏳</div>
-                <div class="waiting-text">Esperando al Jugador 3...</div>
-                <div class="waiting-sub">Pásale el dispositivo al siguiente jugador</div>
-            </div>
-
-            <!-- PASO 3 -->
-            <div id="step3" class="player-step">
-                <div class="step-title">Jugador 3 de 4</div>
-                <div class="floating-label">
-                    <input type="text" id="p3Name" placeholder="Ej: Ana Torres">
-                    <label>Nombre del Jugador 3</label>
-                </div>
-                <div class="floating-label">
-                    <input type="email" id="p3Email" placeholder="Ej: ana@gmail.com">
-                    <label>Correo del Jugador 3</label>
-                </div>
-                <button class="btn-main btn-next" onclick="nextPlayer(3)">✅ Listo · Siguiente</button>
-            </div>
-
-            <!-- ESPERA 3→4 -->
-            <div id="wait3" class="waiting-box">
-                <div class="hourglass">⏳</div>
-                <div class="waiting-text">Esperando al Jugador 4...</div>
-                <div class="waiting-sub">Pásale el dispositivo al siguiente jugador</div>
-            </div>
-
-            <!-- PASO 4 -->
-            <div id="step4" class="player-step">
-                <div class="step-title">Jugador 4 de 4</div>
-                <div class="floating-label">
-                    <input type="text" id="p4Name" placeholder="Ej: Luis Méndez">
-                    <label>Nombre del Jugador 4</label>
-                </div>
-                <div class="floating-label">
-                    <input type="email" id="p4Email" placeholder="Ej: luis@gmail.com">
-                    <label>Correo del Jugador 4</label>
-                </div>
-                <button class="btn-main btn-next" onclick="nextPlayer(4)">✅ Listo · Finalizar Registro</button>
-            </div>
-
-            <!-- FINAL - ANFITRIÓN -->
-            <div id="stepHost" class="player-step">
-                <div class="step-title">👑 Anfitrión</div>
-                <p style="text-align:center; color:var(--text-light); margin-bottom:16px;">Todos los jugadores están registrados. Solo el anfitrión debe iniciar el juego.</p>
-                <div id="finalList" class="registered-list"></div>
-                <button class="btn-main btn-start" onclick="startGame()">🎮 ¡Iniciar Juego!</button>
-                <button class="btn-main btn-back" onclick="location.reload()">↺ Reiniciar Registro</button>
-            </div>
-        </div>
+    <div id="waitingMessage" class="waiting-box">
+      <div class="hourglass">⏳</div>
+      <p>Esperando a que el Anfitrión inicie el juego...</p>
     </div>
+  </div>
 
-    <!-- JUEGO -->
-    <div id="section-game" class="section">
-        <div class="card">
-            <div class="game-header"><h2>⚔️ Algebraic Duel</h2><p style="color:var(--text-light);font-size:0.88rem;">Delicias Georgina</p></div>
-            <div class="progress-text" id="progressText">Pregunta 1 de 20</div>
-            <div class="progress-bar-wrap"><div class="progress-bar" id="progressBar"></div></div>
-            <div class="score-board" id="scoreBoard"></div>
-            <div class="timer-container">
-                <div class="timer-circle" id="timerCircle"><div class="timer-text" id="timerText">10</div></div>
-            </div>
-            <div class="question-box">
-                <h3 id="turnIndicator" style="color:var(--coral);font-size:1rem;">🎯 ¡Todos pueden responder!</h3>
-                <p class="question-text" id="questionText">Cargando...</p>
-            </div>
-            <div class="options-grid" id="optionsContainer"></div>
-            <div class="feedback" id="feedbackMessage"></div>
-            <button id="nextBtn" class="next-btn hidden" onclick="nextTurn()">➡️ Siguiente Pregunta</button>
-        </div>
+  <!-- JUEGO -->
+  <div id="screen-game" class="card hidden">
+    <div style="text-align:center; margin-bottom:8px;">
+      <strong id="progressText">Pregunta 1 de 20</strong>
     </div>
+    <div class="score-board" id="scoreBoard"></div>
+    <div class="timer" id="timerText">10</div>
+    <div class="question-box">
+      <div id="questionText">Cargando pregunta...</div>
+    </div>
+    <div class="options" id="optionsContainer"></div>
+    <div id="feedback" style="text-align:center; margin-top:14px; font-weight:700;"></div>
+  </div>
 
-    <!-- FINAL -->
-    <div id="section-end" class="section">
-        <div class="card end-screen">
-            <h1>🏁 ¡Juego Terminado!</h1>
-            <div id="finalPodium"></div>
-            <h2 id="winnerText" style="color:var(--success); margin:16px 0; font-size:1.3rem;"></h2>
-            <button class="cta-btn" onclick="location.reload()">🔄 Jugar de Nuevo</button>
-        </div>
-    </div>
+  <!-- RESULTADOS -->
+  <div id="screen-end" class="card hidden">
+    <h2 style="text-align:center; color:var(--brown-dark);">🏁 ¡Juego Terminado!</h2>
+    <div id="finalPodium" style="margin:20px 0;"></div>
+    <button class="btn btn-primary" onclick="location.reload()">🔄 Nueva Partida</button>
+  </div>
 
-    <!-- CONTACTO -->
-    <div id="section-contact" class="section">
-        <div class="card contact-section">
-            <h2>📬 Contacto & Redes</h2>
-            <p>¿Dudas sobre el juego o Delicias Georgina?</p>
-            <div class="social-grid">
-                <a href="https://www.instagram.com/deliciasgeorgina" target="_blank" class="social-btn"><img src="https://oscidec.com/portafolio/instagram.jpg" alt="IG" onerror="this.src='https://cdn-icons-png.flaticon.com/512/174/174855.png'"><span>Instagram</span></a>
-                <a href="https://www.facebook.com/share/19MmvsbDyi/" target="_blank" class="social-btn"><img src="https://oscidec.com/portafolio/facebook.jpg" alt="FB" onerror="this.src='https://cdn-icons-png.flaticon.com/512/733/733547.png'"><span>Facebook</span></a>
-                <a href="https://www.tiktok.com/@deliciasgeorgina" target="_blank" class="social-btn"><img src="https://oscidec.com/portafolio/tiktok.jpg" alt="TT" onerror="this.src='https://cdn-icons-png.flaticon.com/512/3046/3046121.png'"><span>TikTok</span></a>
-            </div>
-            <a href="mailto:georginaitzel8@gmail.com" class="email-btn">✉️ georginaitzel8@gmail.com</a>
-            <a href="https://api.whatsapp.com/send/?phone=50766552649&type=phone_number&app_absent=0" target="_blank" class="whatsapp-btn-big">💬 WhatsApp</a>
-        </div>
-    </div>
 </div>
 
 <footer class="footer">
-    <img src="https://oscidec.com/portafolio/delicias.jpg" class="footer-logo" onerror="this.style.display='none'">
-    <h3>Delicias Georgina</h3>
-    <p>Repostería · Panadería · Refresquería</p>
-    <p>Desarrollado por <a href="mailto:georginaitzel8@gmail.com">Georgina Itzel Flores Ojo</a></p>
-    <div class="footer-socials">
-        <a href="https://www.instagram.com/deliciasgeorgina" target="_blank"><img src="https://oscidec.com/portafolio/instagram.jpg" onerror="this.src='https://cdn-icons-png.flaticon.com/512/174/174855.png'"></a>
-        <a href="https://www.facebook.com/share/19MmvsbDyi/" target="_blank"><img src="https://oscidec.com/portafolio/facebook.jpg" onerror="this.src='https://cdn-icons-png.flaticon.com/512/733/733547.png'"></a>
-        <a href="https://www.tiktok.com/@deliciasgeorgina" target="_blank"><img src="https://oscidec.com/portafolio/tiktok.jpg" onerror="this.src='https://cdn-icons-png.flaticon.com/512/3046/3046121.png'"></a>
-    </div>
-    <p><a href="https://api.whatsapp.com/send/?phone=50766552649&type=phone_number&app_absent=0" target="_blank">WhatsApp</a> · <a href="mailto:georginaitzel8@gmail.com">georginaitzel8@gmail.com</a></p>
-    <div class="footer-bottom">© 2026 Algebraic Duel · Universidad Del Istmo<br>Matemáticas I · Profesora: Mauyuri Meza</div>
+  Delicias Georgina · Algebraic Duel 3D<br>
+  Universidad Del Istmo · Matemáticas I
 </footer>
 
-<script>
-    let playersData = [{}, {}, {}, {}];
-    let currentStep = 1;
+<script type="module">
+  // ========== FIREBASE ==========
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-app.js";
+  import { getDatabase, ref, set, onValue, update, push, get, remove } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-database.js";
 
-    function showSection(name) {
-        document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-        document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-        document.getElementById('section-' + name)?.classList.add('active');
-        document.getElementById('nav-' + name)?.classList.add('active');
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+  const firebaseConfig = {
+    apiKey: "AIzaSyC_BocqDQ1Lxi6zOls0N7tphSnaYFrNIIc",
+    authDomain: "georginaitzel-756a1.firebaseapp.com",
+    databaseURL: "https://georginaitzel-756a1-default-rtdb.firebaseio.com",
+    projectId: "georginaitzel-756a1",
+    storageBucket: "georginaitzel-756a1.firebasestorage.app",
+    messagingSenderId: "42653982982",
+    appId: "1:42653982982:web:e59954731dd1b03679be87",
+    measurementId: "G-4LHTXFM5D6"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getDatabase(app);
+
+  // ========== ESTADO ==========
+  let roomCode = null;
+  let playerId = null;
+  let isHost = false;
+  let myName = "";
+  let players = {};
+  let currentQuestion = 0;
+  let questionsAnswered = 0;
+  const totalQuestions = 20;
+  let timerInterval = null;
+  let canAnswer = false;
+
+  const questions = [
+    { q: "¿Cómo se clasifica: −5x (un solo término)?", options: ["Monomio", "Binomio", "Trinomio", "Polinomio"], correct: 0 },
+    { q: "Clasifica: 2x + 3y", options: ["Monomio", "Binomio", "Trinomio", "Ninguna"], correct: 1 },
+    { q: "Clasifica: −2x + 3y − 5z", options: ["Monomio", "Binomio", "Trinomio", "Ninguna"], correct: 2 },
+    { q: "Resuelve: 3x + 5x", options: ["8x²", "8x", "15x", "2x"], correct: 1 },
+    { q: "Simplifica: (5x − 2) − (2x + 1)", options: ["3x − 3", "7x − 1", "3x + 1", "3x − 1"], correct: 0 },
+    { q: "Multiplica: (2x) · (3x²)", options: ["5x³", "6x²", "6x³", "5x²"], correct: 2 },
+    { q: "¿Expresión de 4 o más términos?", options: ["Binomio", "Trinomio", "Polinomio general", "Monomio"], correct: 2 },
+    { q: "Divide: 10x⁴ ÷ 2x²", options: ["5x²", "8x²", "5x", "20x²"], correct: 0 },
+    { q: "Suma: (2x² + 3x − 1) + (x² − 2x + 4)", options: ["3x² + x + 3", "3x² + x + 5", "2x² + x + 3", "3x² − x + 3"], correct: 0 },
+    { q: "Multiplica: (x + 2)(x + 3)", options: ["x² + 5x + 6", "x² + 6x + 5", "x² + 5x + 5", "x² + 6x + 6"], correct: 0 },
+    { q: "Eleva: (x + 1)²", options: ["x² + 1", "x² + 2x + 1", "x² + x + 1", "x² + 2x + 2"], correct: 1 },
+    { q: "Factoriza: x² − 4", options: ["(x+2)(x+2)", "(x−2)(x−2)", "(x+2)(x−2)", "(x+4)(x−1)"], correct: 2 },
+    { q: "Resuelve: 2x² · 3x³", options: ["5x⁵", "6x⁵", "6x⁶", "5x⁶"], correct: 1 },
+    { q: "Simplifica: −3x + 2x − 5x", options: ["−6x", "−4x", "−8x", "6x"], correct: 0 },
+    { q: "Grado de: 4x³ + 2x² − 5x + 1", options: ["2", "3", "4", "1"], correct: 1 },
+    { q: "Multiplica: (3x)(2x + 1)", options: ["6x² + 3x", "5x² + 3x", "6x + 3", "6x² + 1"], correct: 0 },
+    { q: "Coeficiente principal: 4x³ + 2x² − 5x + 1", options: ["4", "2", "-5", "1"], correct: 0 },
+    { q: "¿Cuántos términos tiene: 3x² + 2y − 5?", options: ["1", "2", "3", "4"], correct: 2 },
+    { q: "Divide: 15x⁶ ÷ 5x³", options: ["3x²", "3x³", "3x⁹", "10x³"], correct: 1 },
+    { q: "¿Qué expresión es un trinomio?", options: ["3x", "2x + 5", "x² + 2x + 1", "x³ + x² + x + 1"], correct: 2 }
+  ];
+
+  // ========== NAVEGACIÓN ==========
+  window.showScreen = function(name) {
+    document.querySelectorAll('[id^="screen-"]').forEach(el => el.classList.add('hidden'));
+    document.getElementById('screen-' + name).classList.remove('hidden');
+  }
+
+  // ========== CREAR SALA ==========
+  window.createRoom = async function() {
+    myName = document.getElementById('hostName').value.trim();
+    if (!myName) return alert('Escribe tu nombre');
+
+    // Generar código
+    roomCode = 'DUEL-' + Math.floor(1000 + Math.random() * 9000);
+    playerId = 'host_' + Date.now();
+    isHost = true;
+
+    // Crear sala en Firebase
+    await set(ref(db, 'rooms/' + roomCode), {
+      status: 'waiting',
+      hostId: playerId,
+      currentQuestion: 0,
+      players: {
+        [playerId]: { name: myName, score: 0, correctAnswers: 0 }
+      }
+    });
+
+    document.getElementById('displayCode').textContent = roomCode;
+    document.getElementById('hostControls').classList.remove('hidden');
+    document.getElementById('waitingMessage').classList.add('hidden');
+    showScreen('lobby');
+    listenToRoom();
+  }
+
+  // ========== UNIRSE A SALA ==========
+  window.joinRoom = async function() {
+    roomCode = document.getElementById('joinCode').value.trim().toUpperCase();
+    myName = document.getElementById('playerName').value.trim();
+    if (!roomCode || !myName) return alert('Completa todos los campos');
+
+    // Verificar que la sala exista
+    const snapshot = await get(ref(db, 'rooms/' + roomCode));
+    if (!snapshot.exists()) return alert('La sala no existe. Revisa el código.');
+
+    const room = snapshot.val();
+    if (room.status !== 'waiting') return alert('La partida ya comenzó o terminó.');
+
+    const playerCount = Object.keys(room.players || {}).length;
+    if (playerCount >= 4) return alert('La sala ya está llena (máximo 4 jugadores).');
+
+    playerId = 'player_' + Date.now();
+    isHost = false;
+
+    // Agregar jugador
+    await update(ref(db, 'rooms/' + roomCode + '/players'), {
+      [playerId]: { name: myName, score: 0, correctAnswers: 0 }
+    });
+
+    document.getElementById('displayCode').textContent = roomCode;
+    document.getElementById('hostControls').classList.add('hidden');
+    document.getElementById('waitingMessage').classList.remove('hidden');
+    showScreen('lobby');
+    listenToRoom();
+  }
+
+  // ========== ESCUCHAR CAMBIOS DE LA SALA ==========
+  function listenToRoom() {
+    onValue(ref(db, 'rooms/' + roomCode), (snapshot) => {
+      const room = snapshot.val();
+      if (!room) return;
+
+      players = room.players || {};
+      renderPlayersList();
+
+      // Actualizar botón de inicio (solo host)
+      if (isHost) {
+        const count = Object.keys(players).length;
+        const btn = document.getElementById('btnStart');
+        btn.disabled = count < 4;
+        btn.textContent = count < 4 
+          ? `🎮 Iniciar Juego (${count}/4 jugadores)` 
+          : '🎮 ¡Iniciar Juego!';
+      }
+
+      // Si el juego empezó
+      if (room.status === 'playing' && document.getElementById('screen-lobby').classList.contains('hidden') === false) {
+        currentQuestion = room.currentQuestion || 0;
+        showScreen('game');
+        loadQuestion();
+      }
+
+      // Si el juego terminó
+      if (room.status === 'finished') {
+        showResults(room.players);
+      }
+    });
+  }
+
+  function renderPlayersList() {
+    const list = document.getElementById('playersList');
+    list.innerHTML = '';
+    let i = 1;
+    for (const id in players) {
+      list.innerHTML += `
+        <div class="player-item">
+          <div class="player-num">${i}</div>
+          <div><strong>${players[id].name}</strong></div>
+        </div>`;
+      i++;
+    }
+    document.getElementById('lobbyStatus').textContent = 
+      Object.keys(players).length + ' / 4 jugadores conectados';
+  }
+
+  // ========== INICIAR JUEGO (solo host) ==========
+  window.startGame = async function() {
+    if (!isHost) return;
+    await update(ref(db, 'rooms/' + roomCode), {
+      status: 'playing',
+      currentQuestion: 0,
+      startTime: Date.now()
+    });
+  }
+
+  // ========== LÓGICA DEL JUEGO ==========
+  function loadQuestion() {
+    if (currentQuestion >= totalQuestions) {
+      finishGame();
+      return;
     }
 
-    function toggleAccordion(header) {
-        const content = header.nextElementSibling;
-        const isActive = header.classList.contains('active');
-        document.querySelectorAll('.accordion-header').forEach(h => { h.classList.remove('active'); h.nextElementSibling.classList.remove('show'); });
-        if (!isActive) { header.classList.add('active'); content.classList.add('show'); }
+    const q = questions[currentQuestion];
+    document.getElementById('progressText').textContent = `Pregunta ${currentQuestion + 1} de ${totalQuestions}`;
+    document.getElementById('questionText').textContent = q.q;
+    document.getElementById('feedback').textContent = '';
+
+    const container = document.getElementById('optionsContainer');
+    container.innerHTML = '';
+    q.options.forEach((opt, idx) => {
+      const btn = document.createElement('button');
+      btn.className = 'option-btn';
+      btn.textContent = String.fromCharCode(65 + idx) + '. ' + opt;
+      btn.onclick = () => answerQuestion(idx);
+      container.appendChild(btn);
+    });
+
+    // Timer local de 10 segundos
+    let timeLeft = 10;
+    document.getElementById('timerText').textContent = timeLeft;
+    canAnswer = true;
+    clearInterval(timerInterval);
+    timerInterval = setInterval(() => {
+      timeLeft--;
+      document.getElementById('timerText').textContent = timeLeft;
+      if (timeLeft <= 0) {
+        clearInterval(timerInterval);
+        canAnswer = false;
+        document.getElementById('feedback').textContent = '⏰ Tiempo agotado';
+        setTimeout(nextQuestion, 1500);
+      }
+    }, 1000);
+
+    updateScoreBoard();
+  }
+
+  async function answerQuestion(selected) {
+    if (!canAnswer) return;
+    canAnswer = false;
+    clearInterval(timerInterval);
+
+    const q = questions[currentQuestion];
+    const buttons = document.querySelectorAll('.option-btn');
+    buttons.forEach(b => b.disabled = true);
+
+    if (selected === q.correct) {
+      // Sumar puntos
+      const newScore = (players[playerId]?.score || 0) + 10;
+      const newCorrect = (players[playerId]?.correctAnswers || 0) + 1;
+      await update(ref(db, `rooms/${roomCode}/players/${playerId}`), {
+        score: newScore,
+        correctAnswers: newCorrect
+      });
+      document.getElementById('feedback').textContent = '✅ ¡Correcto! +10 pts';
+      document.getElementById('feedback').style.color = '#2a9d8f';
+    } else {
+      document.getElementById('feedback').textContent = '❌ Incorrecto';
+      document.getElementById('feedback').style.color = '#e63946';
     }
 
-    function nextPlayer(num) {
-        const name = document.getElementById('p' + num + 'Name').value.trim();
-        const email = document.getElementById('p' + num + 'Email').value.trim();
-        if (!name || name.length < 2) { alert('Por favor escribe un nombre válido'); return; }
+    setTimeout(nextQuestion, 1800);
+  }
 
-        playersData[num - 1] = { name, email, score: 0, correctAnswers: 0 };
-
-        // Ocultar paso actual
-        document.getElementById('step' + num).classList.remove('active');
-
-        // Mostrar lista de registrados
-        updateRegisteredList();
-
-        if (num < 4) {
-            // Mostrar arenilla
-            document.getElementById('wait' + num).classList.add('active');
-            setTimeout(() => {
-                document.getElementById('wait' + num).classList.remove('active');
-                document.getElementById('step' + (num + 1)).classList.add('active');
-            }, 2200);
-        } else {
-            // Ir a anfitrión
-            document.getElementById('stepHost').classList.add('active');
-            showFinalList();
-        }
+  async function nextQuestion() {
+    currentQuestion++;
+    if (isHost) {
+      // Solo el host actualiza la pregunta para todos
+      await update(ref(db, 'rooms/' + roomCode), {
+        currentQuestion: currentQuestion
+      });
     }
+    // Todos escuchan el cambio y cargan la siguiente
+    loadQuestion();
+  }
 
-    function updateRegisteredList() {
-        const list = document.getElementById('registeredList');
-        list.style.display = 'block';
-        list.innerHTML = '';
-        playersData.forEach((p, i) => {
-            if (p.name) {
-                list.innerHTML += `<div class="registered-item"><div class="num">${i+1}</div><div><strong>${p.name}</strong><br><small style="color:#7a6a5a">${p.email || ''}</small></div></div>`;
-            }
-        });
+  function updateScoreBoard() {
+    const board = document.getElementById('scoreBoard');
+    board.innerHTML = '';
+    for (const id in players) {
+      board.innerHTML += `
+        <div class="player-card">
+          <strong>${players[id].name}</strong><br>
+          ${players[id].score || 0} pts
+        </div>`;
     }
+  }
 
-    function showFinalList() {
-        const list = document.getElementById('finalList');
-        list.innerHTML = '';
-        playersData.forEach((p, i) => {
-            list.innerHTML += `<div class="registered-item"><div class="num">${i+1}</div><div><strong>${p.name}</strong><br><small style="color:#7a6a5a">${p.email || ''}</small></div></div>`;
-        });
+  async function finishGame() {
+    if (isHost) {
+      await update(ref(db, 'rooms/' + roomCode), { status: 'finished' });
     }
+  }
 
-    // ========== JUEGO ==========
-    let players = [];
-    let currentQuestionIndex = 0;
-    let questionsAnswered = 0;
-    const totalQuestions = 20;
-    let timer, timeLeft = 10, canAnswer = false, currentCorrectAnswer = -1;
-
-    const questions = [
-        { q: "¿Cómo se clasifica la expresión algebraica: −5x (un solo término)?", options: ["Monomio", "Binomio", "Trinomio", "Polinomio de 4 términos"], correct: 0, symbols: ["📐", "📊", "📈", "🔢"] },
-        { q: "Identifica la clasificación de: 2x + 3y", options: ["Monomio", "Binomio", "Trinomio", "Ninguna"], correct: 1, symbols: ["🔵", "🟢", "🟡", "🔴"] },
-        { q: "Clasifica: −2x + 3y − 5z", options: ["Monomio", "Binomio", "Trinomio", "Ninguna"], correct: 2, symbols: ["1️⃣", "2️⃣", "3️⃣", "❌"] },
-        { q: "Resuelve: 3x + 5x", options: ["8x²", "8x", "15x", "2x"], correct: 1, symbols: ["🔢", "✅", "❌", "💡"] },
-        { q: "Simplifica: (5x − 2) − (2x + 1)", options: ["3x − 3", "7x − 1", "3x + 1", "3x − 1"], correct: 0, symbols: ["🎯", "💪", "🔥", "⚡"] },
-        { q: "Multiplica: (2x) · (3x²)", options: ["5x³", "6x²", "6x³", "5x²"], correct: 2, symbols: ["📝", "✏️", "🎯", "💡"] },
-        { q: "¿Expresión de 4 o más términos?", options: ["Binomio", "Trinomio", "Polinomio general", "Monomio compuesto"], correct: 2, symbols: ["2️⃣", "3️⃣", "4️⃣+", "1️⃣"] },
-        { q: "Divide: 10x⁴ ÷ 2x²", options: ["5x²", "8x²", "5x", "20x²"], correct: 0, symbols: ["🏆", "💎", "🌟", "👑"] },
-        { q: "Suma: (2x² + 3x − 1) + (x² − 2x + 4)", options: ["3x² + x + 3", "3x² + x + 5", "2x² + x + 3", "3x² − x + 3"], correct: 0, symbols: ["🎯", "💪", "🔥", "⚡"] },
-        { q: "Multiplica: (x + 2)(x + 3)", options: ["x² + 5x + 6", "x² + 6x + 5", "x² + 5x + 5", "x² + 6x + 6"], correct: 0, symbols: ["⭐", "🌟", "💫", "✨"] },
-        { q: "Eleva: (x + 1)²", options: ["x² + 1", "x² + 2x + 1", "x² + x + 1", "x² + 2x + 2"], correct: 1, symbols: ["🔷", "🔶", "🔵", "🟢"] },
-        { q: "Factoriza: x² − 4", options: ["(x+2)(x+2)", "(x−2)(x−2)", "(x+2)(x−2)", "(x+4)(x−1)"], correct: 2, symbols: ["🎨", "🎭", "🎪", "🎯"] },
-        { q: "Resuelve: 2x² · 3x³", options: ["5x⁵", "6x⁵", "6x⁶", "5x⁶"], correct: 1, symbols: ["🔢", "✅", "❌", "💡"] },
-        { q: "Simplifica: −3x + 2x − 5x", options: ["−6x", "−4x", "−8x", "6x"], correct: 0, symbols: ["📉", "📈", "📊", "💹"] },
-        { q: "Grado de: 4x³ + 2x² − 5x + 1", options: ["2", "3", "4", "1"], correct: 1, symbols: ["2️⃣", "3️⃣", "4️⃣", "1️⃣"] },
-        { q: "Multiplica: (3x)(2x + 1)", options: ["6x² + 3x", "5x² + 3x", "6x + 3", "6x² + 1"], correct: 0, symbols: ["🎯", "💪", "🔥", "⚡"] },
-        { q: "Coeficiente principal: 4x³ + 2x² − 5x + 1", options: ["4", "2", "-5", "1"], correct: 0, symbols: ["4️⃣", "2️⃣", "➖5️⃣", "1️⃣"] },
-        { q: "¿Cuántos términos tiene: 3x² + 2y − 5?", options: ["1", "2", "3", "4"], correct: 2, symbols: ["1️⃣", "2️⃣", "3️⃣", "4️⃣"] },
-        { q: "Divide: 15x⁶ ÷ 5x³", options: ["3x²", "3x³", "3x⁹", "10x³"], correct: 1, symbols: ["💎", "🏆", "🌟", "👑"] },
-        { q: "¿Qué expresión es un trinomio?", options: ["3x", "2x + 5", "x² + 2x + 1", "x³ + x² + x + 1"], correct: 2, symbols: ["1️⃣", "2️⃣", "3️⃣", "4️⃣+"] }
-    ];
-
-    function startGame() {
-        players = playersData.map(p => ({ ...p }));
-        currentQuestionIndex = 0;
-        questionsAnswered = 0;
-
-        // Countdown
-        const overlay = document.createElement('div');
-        overlay.className = 'countdown-overlay';
-        overlay.innerHTML = '<div class="countdown-number" id="countNum">3</div><div style="font-size:1.3rem;margin-top:10px">¡Prepárense!</div>';
-        document.body.appendChild(overlay);
-        let n = 3;
-        const int = setInterval(() => {
-            n--;
-            if (n > 0) document.getElementById('countNum').textContent = n;
-            else {
-                clearInterval(int);
-                overlay.remove();
-                showSection('game');
-                loadQuestion();
-            }
-        }, 900);
-    }
-
-    function updateScoreBoard() {
-        const board = document.getElementById('scoreBoard');
-        board.innerHTML = '';
-        players.forEach(p => {
-            board.innerHTML += `<div class="player-card"><strong>${p.name}</strong><span style="font-size:1.1rem;color:var(--gold);font-weight:700">${p.score} pts</span><br><small style="color:var(--text-light)">✓ ${p.correctAnswers}</small></div>`;
-        });
-    }
-
-    function updateProgress() {
-        const current = Math.min(questionsAnswered + 1, totalQuestions);
-        document.getElementById('progressText').textContent = `Pregunta ${current} de ${totalQuestions}`;
-        document.getElementById('progressBar').style.width = (questionsAnswered / totalQuestions * 100) + '%';
-    }
-
-    function startTimer() {
-        timeLeft = 10; canAnswer = true;
-        updateScoreBoard(); updateProgress();
-        clearInterval(timer); updateTimerDisplay();
-        timer = setInterval(() => {
-            timeLeft--; updateTimerDisplay();
-            if (timeLeft <= 0) { clearInterval(timer); canAnswer = false; handleTimeout(); }
-        }, 1000);
-    }
-
-    function updateTimerDisplay() {
-        document.getElementById('timerText').textContent = timeLeft;
-        const pct = (timeLeft / 10) * 100;
-        document.getElementById('timerCircle').style.background = `conic-gradient(var(--coral) ${pct}%, var(--beige) ${pct}%)`;
-        document.getElementById('timerText').classList.toggle('timer-critical', timeLeft <= 3);
-    }
-
-    function loadQuestion() {
-        updateScoreBoard(); updateProgress();
-        document.getElementById('feedbackMessage').innerText = '';
-        document.getElementById('nextBtn').classList.add('hidden');
-        if (questionsAnswered >= totalQuestions) { endGame(); return; }
-        const q = questions[currentQuestionIndex % questions.length];
-        currentCorrectAnswer = q.correct;
-        document.getElementById('questionText').innerHTML = q.q;
-        const cont = document.getElementById('optionsContainer');
-        cont.innerHTML = '';
-        q.options.forEach((opt, idx) => {
-            const btn = document.createElement('button');
-            btn.className = 'option-btn';
-            btn.innerHTML = `<span class="option-symbol">${q.symbols[idx]}</span><span class="option-letter">${String.fromCharCode(65+idx)}</span>${opt}`;
-            btn.onclick = () => checkAnswer(idx);
-            cont.appendChild(btn);
-        });
-        startTimer();
-    }
-
-    function checkAnswer(selected) {
-        if (!canAnswer) return;
-        canAnswer = false; clearInterval(timer);
-        document.querySelectorAll('.option-btn').forEach((btn, idx) => {
-            btn.disabled = true;
-            if (idx === currentCorrectAnswer) btn.classList.add('correct');
-            else if (idx === selected) btn.classList.add('wrong');
-        });
-        const fb = document.getElementById('feedbackMessage');
-        if (selected === currentCorrectAnswer) {
-            const minP = players.reduce((m, p) => p.score < m.score ? p : m, players[0]);
-            minP.score += 10; minP.correctAnswers++;
-            fb.style.color = '#2a9d8f'; fb.innerText = `✅ ¡Correcto! ${minP.name} +10 pts`;
-        } else {
-            fb.style.color = '#e63946'; fb.innerText = '❌ ¡Incorrecto!';
-        }
-        questionsAnswered++; updateScoreBoard();
-        document.getElementById('nextBtn').classList.remove('hidden');
-    }
-
-    function handleTimeout() {
-        document.querySelectorAll('.option-btn').forEach((btn, idx) => {
-            btn.disabled = true;
-            if (idx === currentCorrectAnswer) btn.classList.add('correct');
-        });
-        document.getElementById('feedbackMessage').style.color = '#e63946';
-        document.getElementById('feedbackMessage').innerText = '⏰ ¡Tiempo agotado!';
-        document.getElementById('nextBtn').classList.remove('hidden');
-    }
-
-    function nextTurn() { currentQuestionIndex++; loadQuestion(); }
-
-    function endGame() {
-        showSection('end');
-        const sorted = [...players].sort((a,b) => b.score - a.score);
-        const medals = [
-            { icon: '🥇', label: '1er Lugar · Trofeo de Oro' },
-            { icon: '🥈', label: '2do Lugar · Trofeo de Plata' },
-            { icon: '🥉', label: '3er Lugar · Trofeo de Cobre' },
-            { icon: '💎', label: '4to Lugar · Puesto Diamante' }
-        ];
-        const podium = document.getElementById('finalPodium');
-        podium.innerHTML = '';
-        sorted.forEach((p, i) => {
-            podium.innerHTML += `<div class="podium-card"><div class="podium-medal">${medals[i].icon}</div><div class="podium-info"><h3>${medals[i].label}</h3><div style="font-weight:600;color:var(--brown-dark)">${p.name}</div><div class="pts">${p.score} pts · ${p.correctAnswers} aciertos</div></div></div>`;
-        });
-        document.getElementById('winnerText').innerHTML = `👑 ¡Felicidades ${sorted[0].name}!<br>Ganador con ${sorted[0].score} puntos`;
-    }
+  function showResults(finalPlayers) {
+    showScreen('end');
+    const sorted = Object.values(finalPlayers).sort((a, b) => (b.score || 0) - (a.score || 0));
+    const medals = ['🥇', '🥈', '🥉', '💎'];
+    let html = '';
+    sorted.forEach((p, i) => {
+      html += `<div style="background:#f8f4ef; padding:14px; border-radius:12px; margin-bottom:10px; display:flex; align-items:center; gap:12px;">
+        <span style="font-size:1.8rem;">${medals[i] || '•'}</span>
+        <div>
+          <strong>${p.name}</strong><br>
+          <span style="color:var(--gold); font-weight:700;">${p.score || 0} pts</span>
+        </div>
+      </div>`;
+    });
+    document.getElementById('finalPodium').innerHTML = html;
+  }
 </script>
 </body>
 </html>
