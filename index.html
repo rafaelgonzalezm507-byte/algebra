@@ -15,210 +15,436 @@
     body {
       font-family: 'Poppins', sans-serif;
       background: linear-gradient(160deg, #faf5ef 0%, #f5ebe0 50%, #faf5ef 100%);
-      color: var(--text); min-height: 100vh;
+      color: var(--text); min-height: 100vh; line-height: 1.55;
     }
     h1, h2, h3 { font-family: 'Playfair Display', serif; }
 
     .navbar {
-      position: sticky; top: 0; z-index: 100;
-      background: rgba(255,253,249,0.97); backdrop-filter: blur(10px);
-      border-bottom: 1px solid var(--beige); padding: 12px 16px;
-      display: flex; align-items: center; justify-content: space-between;
+      position: sticky; top: 0; z-index: 1000;
+      background: rgba(255,253,249,0.97); backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--beige); padding: 10px 16px;
+      display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px;
     }
     .nav-brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--brown-dark); }
     .nav-brand img { width: 42px; height: 42px; border-radius: 50%; object-fit: cover; border: 2px solid var(--gold); }
-    .nav-brand span { font-weight: 700; font-size: 1.15rem; }
+    .nav-brand span { font-family: 'Playfair Display', serif; font-weight: 700; font-size: 1.15rem; }
+    .nav-links { display: flex; gap: 6px; flex-wrap: wrap; }
+    .nav-btn {
+      padding: 7px 14px; border-radius: 50px; border: none; background: transparent;
+      color: var(--brown); font-weight: 600; font-size: 0.88rem; cursor: pointer; transition: 0.25s;
+    }
+    .nav-btn.active, .nav-btn:hover {
+      background: linear-gradient(135deg, var(--coral), #d4654a); color: white;
+    }
 
-    .container { max-width: 520px; margin: 0 auto; padding: 20px 16px 80px; }
+    .main-container { max-width: 900px; margin: 0 auto; padding: 20px 14px 90px; }
     .card {
       background: var(--white); border-radius: 20px;
-      box-shadow: 0 10px 30px rgba(139,94,60,0.12);
-      border: 1px solid var(--beige); padding: 28px 22px;
+      box-shadow: 0 10px 30px rgba(139,94,60,0.12); border: 1px solid var(--beige); overflow: hidden;
     }
+    .section { display: none; animation: fadeIn 0.4s ease; }
+    .section.active { display: block; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 
-    .hero { text-align: center; }
+    /* HERO */
+    .hero { text-align: center; padding: 32px 20px 24px; }
     .hero-logo {
-      width: 120px; height: 120px; margin: 0 auto 16px;
-      border-radius: 50%; overflow: hidden; border: 4px solid white;
-      box-shadow: 0 10px 25px rgba(139,94,60,0.2);
+      width: 140px; height: 140px; margin: 0 auto 16px; border-radius: 50%; overflow: hidden;
+      border: 5px solid white; box-shadow: 0 12px 32px rgba(139,94,60,0.25);
+      animation: float 5s ease-in-out infinite;
     }
     .hero-logo img { width: 100%; height: 100%; object-fit: cover; }
+    @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
     .brand-badge {
       display: inline-block; background: linear-gradient(135deg,#c9a227,#e0b84a);
-      color: white; padding: 5px 16px; border-radius: 50px;
-      font-size: 0.85rem; font-weight: 600; margin-bottom: 12px;
+      color: white; padding: 5px 18px; border-radius: 50px; font-size: 0.88rem; font-weight: 600; margin-bottom: 12px;
     }
-    .hero h1 { font-size: 1.9rem; color: var(--brown-dark); margin-bottom: 4px; }
-    .hero h2 { font-size: 1.1rem; color: var(--text-light); margin-bottom: 20px; }
+    .hero h1 { font-size: 2.3rem; color: var(--brown-dark); margin-bottom: 4px; }
+    .hero h2 { font-size: 1.2rem; color: var(--text-light); font-weight: 500; margin-bottom: 18px; }
 
-    .btn {
-      width: 100%; padding: 14px; border: none; border-radius: 14px;
-      font-size: 1.05rem; font-weight: 700; cursor: pointer;
-      font-family: inherit; margin-top: 10px; transition: 0.25s;
+    .info-box {
+      background: linear-gradient(135deg,#faf5ef,#f5ebe0); border: 1px solid var(--beige);
+      border-radius: 14px; padding: 16px; margin: 18px 0; text-align: left; font-size: 0.92rem; color: var(--text-light);
+    }
+    .info-box strong { color: var(--brown-dark); }
+
+    .cta-btn {
+      display: inline-flex; align-items: center; gap: 8px; padding: 14px 32px; border-radius: 50px; border: none;
+      background: linear-gradient(135deg, var(--coral), #d4654a); color: white; font-size: 1.1rem; font-weight: 700;
+      cursor: pointer; box-shadow: 0 8px 24px rgba(224,122,95,0.4); margin: 8px 6px; transition: 0.25s;
+    }
+    .cta-btn:hover { transform: translateY(-3px); }
+    .cta-btn.secondary { background: white; color: var(--brown); border: 2px solid var(--beige); box-shadow: none; }
+
+    /* ACORDEÓN */
+    .accordion { margin: 20px 0 10px; text-align: left; }
+    .accordion-item { margin-bottom: 10px; border: 1px solid var(--beige); border-radius: 12px; overflow: hidden; background: white; }
+    .accordion-header {
+      padding: 14px 18px; cursor: pointer; display: flex; justify-content: space-between; align-items: center;
+      background: linear-gradient(135deg,#faf5ef,#f5ebe0); font-weight: 600; color: var(--brown-dark); font-size: 0.98rem;
+    }
+    .accordion-header .arrow { transition: transform 0.3s; color: var(--coral); }
+    .accordion-header.active .arrow { transform: rotate(180deg); }
+    .accordion-content { max-height: 0; overflow: hidden; transition: max-height 0.45s ease; }
+    .accordion-content.show { max-height: 900px; }
+    .accordion-content-inner { padding: 14px 18px; border-top: 1px solid var(--beige); font-size: 0.92rem; }
+    .accordion-content-inner ul { list-style: none; padding: 0; }
+    .accordion-content-inner li { padding: 5px 0; display: flex; gap: 8px; }
+
+    /* MULTIJUGADOR */
+    .multi-box { padding: 24px 20px; text-align: center; }
+    .input-group { margin-bottom: 14px; text-align: left; }
+    .input-group label { display: block; font-size: 0.85rem; font-weight: 600; color: var(--brown); margin-bottom: 5px; }
+    .input-group input {
+      width: 100%; padding: 13px 14px; border: 2px solid var(--beige); border-radius: 12px;
+      font-size: 1rem; font-family: inherit; outline: none;
+    }
+    .input-group input:focus { border-color: var(--coral); }
+    .room-code {
+      font-size: 2rem; font-weight: 700; letter-spacing: 3px; color: var(--coral);
+      background: #fff8f0; padding: 14px; border-radius: 14px; border: 2px dashed var(--gold); margin: 16px 0;
+    }
+    .players-list { margin: 16px 0; text-align: left; }
+    .player-item {
+      display: flex; align-items: center; gap: 12px; background: #f8f4ef;
+      border-radius: 12px; padding: 12px 14px; margin-bottom: 8px; border: 1px solid var(--beige);
+    }
+    .player-num {
+      width: 30px; height: 30px; border-radius: 50%; background: var(--coral); color: white;
+      display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.9rem;
+    }
+    .waiting-box { text-align: center; padding: 24px 10px; }
+    .hourglass { font-size: 3.2rem; animation: spin 2s linear infinite; display: inline-block; }
+    @keyframes spin { from{transform:rotate(0)} to{transform:rotate(360deg)} }
+    .btn-main {
+      width: 100%; padding: 14px; border: none; border-radius: 14px; font-size: 1.05rem;
+      font-weight: 700; cursor: pointer; font-family: inherit; margin-top: 10px; transition: 0.25s;
     }
     .btn-primary { background: linear-gradient(135deg, var(--coral), #d4654a); color: white; }
     .btn-success { background: linear-gradient(135deg, var(--success), #21867a); color: white; }
     .btn-outline { background: white; border: 2px solid var(--beige); color: var(--brown); }
-    .btn:disabled { opacity: 0.6; cursor: not-allowed; }
+    .btn-main:disabled { opacity: 0.55; cursor: not-allowed; }
 
-    .input-group { margin-bottom: 14px; text-align: left; }
-    .input-group label { display: block; font-size: 0.85rem; font-weight: 600; color: var(--brown); margin-bottom: 5px; }
-    .input-group input {
-      width: 100%; padding: 13px 14px; border: 2px solid var(--beige);
-      border-radius: 12px; font-size: 1rem; font-family: inherit; outline: none;
+    /* JUEGO */
+    .game-header { text-align: center; padding: 18px 14px 6px; }
+    .progress-text { text-align: center; font-weight: 700; color: var(--brown-dark); margin: 6px 0; }
+    .score-board { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; padding: 0 14px 12px; }
+    @media(min-width:600px){ .score-board { grid-template-columns: repeat(4, 1fr); } }
+    .player-card {
+      background: white; border: 2px solid var(--beige); border-radius: 12px;
+      padding: 10px 6px; text-align: center; font-size: 0.85rem;
     }
-    .input-group input:focus { border-color: var(--coral); }
-
-    .room-code {
-      font-size: 2.2rem; font-weight: 700; letter-spacing: 4px;
-      color: var(--coral); text-align: center; margin: 16px 0;
-      background: #fff8f0; padding: 12px; border-radius: 12px;
-      border: 2px dashed var(--gold);
+    .timer-container { display: flex; justify-content: center; margin: 8px 0 14px; }
+    .timer-circle {
+      width: 90px; height: 90px; border-radius: 50%;
+      background: conic-gradient(var(--coral) 0%, var(--beige) 0%);
+      display: flex; align-items: center; justify-content: center; position: relative;
     }
-
-    .players-list { margin: 18px 0; }
-    .player-item {
-      display: flex; align-items: center; gap: 12px;
-      background: #f8f4ef; border-radius: 12px; padding: 12px 14px;
-      margin-bottom: 8px; border: 1px solid var(--beige);
+    .timer-circle::before {
+      content: ''; position: absolute; width: 70px; height: 70px;
+      border-radius: 50%; background: var(--white);
     }
-    .player-num {
-      width: 32px; height: 32px; border-radius: 50%;
-      background: var(--coral); color: white; display: flex;
-      align-items: center; justify-content: center; font-weight: 700;
+    .timer-text { position: relative; z-index: 2; font-size: 1.9rem; font-weight: 700; color: var(--brown-dark); }
+    .question-box {
+      background: white; margin: 0 14px 14px; padding: 18px; border-radius: 14px;
+      border: 2px solid var(--beige); text-align: center;
     }
-    .waiting-box { text-align: center; padding: 30px 10px; }
-    .hourglass { font-size: 3.5rem; animation: spin 2s linear infinite; display: inline-block; }
-    @keyframes spin { from{transform:rotate(0)} to{transform:rotate(360deg)} }
-
-    .status-text { text-align: center; color: var(--text-light); margin: 10px 0; font-size: 0.95rem; }
-
-    .hidden { display: none !important; }
-
-    /* Game styles (simplified for multiplayer) */
-    .score-board { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 16px; }
-    .player-card { background: white; border: 2px solid var(--beige); border-radius: 12px; padding: 10px; text-align: center; font-size: 0.85rem; }
-    .timer { font-size: 2.5rem; font-weight: 700; text-align: center; color: var(--coral); margin: 12px 0; }
-    .question-box { background: #fff; border: 2px solid var(--beige); border-radius: 14px; padding: 18px; text-align: center; margin-bottom: 16px; }
-    .options { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .question-text { font-size: 1.15rem; font-weight: 600; margin-top: 8px; }
+    .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 0 14px 14px; }
     .option-btn {
       padding: 16px 10px; border: none; border-radius: 14px; color: white;
-      font-weight: 600; font-size: 0.95rem; cursor: pointer;
+      font-weight: 600; font-size: 0.95rem; cursor: pointer; min-height: 90px;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
     }
     .option-btn:nth-child(1){background:linear-gradient(135deg,#e07a5f,#c45c45)}
     .option-btn:nth-child(2){background:linear-gradient(135deg,#2a9d8f,#1d7a6f)}
     .option-btn:nth-child(3){background:linear-gradient(135deg,#c9a227,#a8871c)}
     .option-btn:nth-child(4){background:linear-gradient(135deg,#8b5e3c,#6a4630)}
     .option-btn:disabled { opacity: 0.6; }
+    .feedback { text-align: center; font-weight: 700; font-size: 1.1rem; min-height: 28px; margin: 8px 14px; }
 
-    .footer { text-align: center; padding: 30px 16px; color: var(--text-light); font-size: 0.85rem; }
+    /* PODIO */
+    .end-screen { text-align: center; padding: 28px 18px; }
+    .podium-card {
+      background: white; padding: 14px; border-radius: 14px; margin-bottom: 10px;
+      border: 1px solid var(--beige); display: flex; align-items: center; gap: 14px; text-align: left;
+    }
+    .podium-medal { font-size: 2.1rem; min-width: 46px; text-align: center; }
+
+    /* CONTACTO */
+    .contact-section { padding: 28px 20px; text-align: center; }
+    .social-grid { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; margin: 20px 0; }
+    .social-btn { display: flex; flex-direction: column; align-items: center; gap: 6px; text-decoration: none; color: var(--brown-dark); }
+    .social-btn img { width: 56px; height: 56px; border-radius: 14px; object-fit: cover; border: 2px solid white; box-shadow: 0 5px 14px rgba(0,0,0,0.12); }
+    .email-btn, .whatsapp-btn-big {
+      display: inline-flex; align-items: center; gap: 8px; padding: 12px 22px; border-radius: 50px;
+      font-weight: 700; text-decoration: none; margin: 6px; font-size: 0.95rem;
+    }
+    .email-btn { background: linear-gradient(135deg,#5c6bc0,#3949ab); color: white; }
+    .whatsapp-btn-big { background: linear-gradient(135deg,#25D366,#128C7E); color: white; }
+
+    /* FOOTER */
+    .footer {
+      background: linear-gradient(135deg,#5c3d2e,#3d2b1f); color: #f5ebe0;
+      text-align: center; padding: 30px 16px 24px; margin-top: 30px;
+    }
+    .footer-logo { width: 60px; height: 60px; border-radius: 50%; object-fit: cover; border: 3px solid var(--gold); margin-bottom: 10px; }
+    .footer h3 { font-family: 'Playfair Display', serif; font-size: 1.3rem; color: white; margin-bottom: 4px; }
+    .footer a { color: var(--gold); text-decoration: none; font-weight: 600; }
+    .footer-socials { display: flex; justify-content: center; gap: 12px; margin: 14px 0 10px; }
+    .footer-socials a img { width: 34px; height: 34px; border-radius: 8px; object-fit: cover; }
+    .footer-bottom { margin-top: 14px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.15); font-size: 0.8rem; opacity: 0.7; }
+
+    .whatsapp-float {
+      position: fixed; bottom: 20px; right: 18px; z-index: 999;
+      width: 54px; height: 54px; border-radius: 50%; background: #25D366;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 6px 22px rgba(37,211,102,0.5); animation: pulse 2.4s infinite;
+    }
+    @keyframes pulse { 0%,100%{box-shadow:0 6px 22px rgba(37,211,102,0.5)} 50%{box-shadow:0 6px 36px rgba(37,211,102,0.75)} }
+    .whatsapp-float svg { width: 26px; height: 26px; fill: white; }
+
+    .hidden { display: none !important; }
   </style>
 </head>
 <body>
 
 <nav class="navbar">
-  <a href="#" class="nav-brand">
+  <a href="#" class="nav-brand" onclick="showSection('home'); return false;">
     <img src="https://oscidec.com/portafolio/delicias.jpg" alt="Logo" onerror="this.src='https://via.placeholder.com/42'">
     <span>Delicias Georgina</span>
   </a>
+  <div class="nav-links">
+    <button class="nav-btn active" id="nav-home" onclick="showSection('home')">Inicio</button>
+    <button class="nav-btn" id="nav-play" onclick="showSection('play')">Jugar</button>
+    <button class="nav-btn" id="nav-contact" onclick="showSection('contact')">Contacto</button>
+  </div>
 </nav>
 
-<div class="container">
+<a href="https://api.whatsapp.com/send/?phone=50766552649&text=Hola%20Georgina&type=phone_number&app_absent=0" target="_blank" class="whatsapp-float">
+  <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
 
-  <!-- PANTALLA INICIAL -->
-  <div id="screen-home" class="card hero">
-    <div class="hero-logo">
-      <img src="https://oscidec.com/portafolio/delicias.jpg" alt="Logo">
+<div class="main-container">
+
+  <!-- ========== INICIO ========== -->
+  <div id="section-home" class="section active">
+    <div class="card">
+      <div class="hero">
+        <div class="hero-logo">
+          <img src="https://oscidec.com/portafolio/delicias.jpg" alt="Delicias Georgina" onerror="this.parentElement.innerHTML='🍰'">
+        </div>
+        <div class="brand-badge">Delicias Georgina · Repostería</div>
+        <h1>Algebraic Duel 3D</h1>
+        <h2>El Desafío de los Polinomios</h2>
+
+        <div class="info-box">
+          <p>
+            <strong>👩‍🎓 Estudiante:</strong> Georgina Itzel Flores Ojo<br>
+            <strong>📚 Universidad Del Istmo</strong><br>
+            <strong>✈️ Carrera:</strong> Técnico en Servicio para Aerolínea<br>
+            <strong>👩‍🏫 Profesora:</strong> Mauyuri Meza<br>
+            <strong>📐 Materia:</strong> Matemáticas I-VIRT-2026-2-AGO-[3-B]<br>
+            <strong>📋 Actividad:</strong> Juego didáctico interactivo multijugador
+          </p>
+        </div>
+
+        <div class="accordion">
+          <div class="accordion-item">
+            <div class="accordion-header" onclick="toggleAccordion(this)">
+              <span>📋 Reglas del Juego</span><span class="arrow">▼</span>
+            </div>
+            <div class="accordion-content">
+              <div class="accordion-content-inner">
+                <p><strong>👥 Jugadores:</strong> 4 personas (cada uno desde su celular)</p>
+                <p><strong>📝 Total de preguntas:</strong> 20</p>
+                <p><strong>⏱️ Tiempo por pregunta:</strong> 10 segundos</p>
+                <p><strong>🏆 Cómo ganar:</strong> Mayor puntuación al final</p>
+                <p><strong>➕ Puntos:</strong> +10 por respuesta correcta</p>
+                <p><strong>📱 Modalidad:</strong> Multijugador en tiempo real</p>
+              </div>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <div class="accordion-header" onclick="toggleAccordion(this)">
+              <span>🎯 Objetivos de Aprendizaje</span><span class="arrow">▼</span>
+            </div>
+            <div class="accordion-content">
+              <div class="accordion-content-inner">
+                <ul>
+                  <li>✅ Identificar y clasificar expresiones algebraicas</li>
+                  <li>✅ Dominar operaciones con monomios y polinomios</li>
+                  <li>✅ Desarrollar rapidez mental algebraica</li>
+                  <li>✅ Fomentar el aprendizaje competitivo</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <div class="accordion-header" onclick="toggleAccordion(this)">
+              <span>📚 Contenido Académico</span><span class="arrow">▼</span>
+            </div>
+            <div class="accordion-content">
+              <div class="accordion-content-inner">
+                <p><strong>Clasificación:</strong> Monomio · Binomio · Trinomio · Polinomio</p>
+                <p><strong>Operaciones:</strong> Suma · Resta · Multiplicación · División · Factorización</p>
+              </div>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <div class="accordion-header" onclick="toggleAccordion(this)">
+              <span>🔗 Cómo se juega (Multijugador)</span><span class="arrow">▼</span>
+            </div>
+            <div class="accordion-content">
+              <div class="accordion-content-inner">
+                <p>1. El <strong>Anfitrión</strong> crea una sala y obtiene un código.</p>
+                <p>2. Comparte el código con los demás jugadores.</p>
+                <p>3. Cada jugador entra desde su celular con el código.</p>
+                <p>4. Cuando haya 4 jugadores, el Anfitrión inicia el juego.</p>
+                <p>5. Todos responden al mismo tiempo desde sus dispositivos.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <button class="cta-btn" onclick="showSection('play')">🚀 Jugar Ahora</button>
+      </div>
     </div>
-    <div class="brand-badge">Delicias Georgina</div>
-    <h1>Algebraic Duel 3D</h1>
-    <h2>El Desafío de los Polinomios</h2>
-    <p style="color:var(--text-light); margin-bottom:24px; font-size:0.95rem;">
-      Juego multijugador en tiempo real<br>Cada jugador desde su propio celular
-    </p>
-    <button class="btn btn-primary" onclick="showScreen('create')">👑 Crear Sala (Anfitrión)</button>
-    <button class="btn btn-outline" onclick="showScreen('join')">🔗 Unirme a una Sala</button>
   </div>
 
-  <!-- CREAR SALA -->
-  <div id="screen-create" class="card hidden">
-    <h2 style="text-align:center; color:var(--brown-dark); margin-bottom:8px;">Crear Sala</h2>
-    <p class="status-text">Serás el Anfitrión de la partida</p>
-    <div class="input-group">
-      <label>Tu nombre</label>
-      <input type="text" id="hostName" placeholder="Ej: Georgina">
+  <!-- ========== JUGAR (MULTIJUGADOR) ========== -->
+  <div id="section-play" class="section">
+    <div class="card">
+
+      <!-- Pantalla de selección -->
+      <div id="play-home" class="multi-box">
+        <h2 style="color:var(--brown-dark); margin-bottom:8px;">🎮 Modo Multijugador</h2>
+        <p style="color:var(--text-light); margin-bottom:24px;">Cada jugador desde su propio celular</p>
+        <button class="btn-main btn-primary" onclick="showPlayScreen('create')">👑 Crear Sala (Anfitrión)</button>
+        <button class="btn-main btn-outline" onclick="showPlayScreen('join')">🔗 Unirme a una Sala</button>
+        <button class="btn-main btn-outline" onclick="showSection('home')" style="margin-top:16px;">← Volver al Inicio</button>
+      </div>
+
+      <!-- Crear Sala -->
+      <div id="play-create" class="multi-box hidden">
+        <h2 style="color:var(--brown-dark);">Crear Sala</h2>
+        <p style="color:var(--text-light); margin-bottom:16px;">Serás el Anfitrión</p>
+        <div class="input-group">
+          <label>Tu nombre</label>
+          <input type="text" id="hostName" placeholder="Ej: Georgina">
+        </div>
+        <button class="btn-main btn-primary" onclick="createRoom()">Crear Sala</button>
+        <button class="btn-main btn-outline" onclick="showPlayScreen('home')">← Volver</button>
+      </div>
+
+      <!-- Unirse -->
+      <div id="play-join" class="multi-box hidden">
+        <h2 style="color:var(--brown-dark);">Unirse a Sala</h2>
+        <div class="input-group">
+          <label>Código de la sala</label>
+          <input type="text" id="joinCode" placeholder="Ej: DUEL-4829" style="text-transform:uppercase; letter-spacing:2px;">
+        </div>
+        <div class="input-group">
+          <label>Tu nombre</label>
+          <input type="text" id="playerName" placeholder="Ej: María López">
+        </div>
+        <button class="btn-main btn-success" onclick="joinRoom()">Unirme</button>
+        <button class="btn-main btn-outline" onclick="showPlayScreen('home')">← Volver</button>
+      </div>
+
+      <!-- Lobby -->
+      <div id="play-lobby" class="multi-box hidden">
+        <h2 style="color:var(--brown-dark);">Sala de Espera</h2>
+        <div class="room-code" id="displayCode">------</div>
+        <p id="lobbyStatus" style="color:var(--text-light);">Esperando jugadores...</p>
+        <div class="players-list" id="playersList"></div>
+
+        <div id="hostControls" class="hidden">
+          <button class="btn-main btn-primary" id="btnStart" onclick="startGame()" disabled>
+            🎮 Iniciar Juego
+          </button>
+        </div>
+        <div id="waitingMessage" class="waiting-box hidden">
+          <div class="hourglass">⏳</div>
+          <p>Esperando a que el Anfitrión inicie el juego...</p>
+        </div>
+      </div>
+
+      <!-- Juego -->
+      <div id="play-game" class="hidden">
+        <div class="game-header">
+          <h2 style="color:var(--brown-dark);">⚔️ Algebraic Duel</h2>
+        </div>
+        <div class="progress-text" id="progressText">Pregunta 1 de 20</div>
+        <div class="score-board" id="scoreBoard"></div>
+        <div class="timer-container">
+          <div class="timer-circle" id="timerCircle">
+            <div class="timer-text" id="timerText">10</div>
+          </div>
+        </div>
+        <div class="question-box">
+          <div class="question-text" id="questionText">Cargando...</div>
+        </div>
+        <div class="options-grid" id="optionsContainer"></div>
+        <div class="feedback" id="feedback"></div>
+      </div>
+
+      <!-- Resultados -->
+      <div id="play-end" class="end-screen hidden">
+        <h1 style="color:var(--brown-dark);">🏁 ¡Juego Terminado!</h1>
+        <div id="finalPodium"></div>
+        <button class="cta-btn" onclick="location.reload()">🔄 Nueva Partida</button>
+      </div>
+
     </div>
-    <button class="btn btn-primary" onclick="createRoom()">Crear Sala</button>
-    <button class="btn btn-outline" onclick="showScreen('home')">← Volver</button>
   </div>
 
-  <!-- UNIRSE A SALA -->
-  <div id="screen-join" class="card hidden">
-    <h2 style="text-align:center; color:var(--brown-dark); margin-bottom:8px;">Unirse a Sala</h2>
-    <div class="input-group">
-      <label>Código de la sala</label>
-      <input type="text" id="joinCode" placeholder="Ej: DUEL-4829" style="text-transform:uppercase; letter-spacing:2px;">
+  <!-- ========== CONTACTO ========== -->
+  <div id="section-contact" class="section">
+    <div class="card contact-section">
+      <h2 style="color:var(--brown-dark);">📬 Contacto & Redes</h2>
+      <p style="color:var(--text-light); margin-bottom:20px;">¿Dudas sobre el juego o Delicias Georgina?</p>
+      <div class="social-grid">
+        <a href="https://www.instagram.com/deliciasgeorgina" target="_blank" class="social-btn">
+          <img src="https://oscidec.com/portafolio/instagram.jpg" alt="IG" onerror="this.src='https://cdn-icons-png.flaticon.com/512/174/174855.png'">
+          <span>Instagram</span>
+        </a>
+        <a href="https://www.facebook.com/share/19MmvsbDyi/" target="_blank" class="social-btn">
+          <img src="https://oscidec.com/portafolio/facebook.jpg" alt="FB" onerror="this.src='https://cdn-icons-png.flaticon.com/512/733/733547.png'">
+          <span>Facebook</span>
+        </a>
+        <a href="https://www.tiktok.com/@deliciasgeorgina" target="_blank" class="social-btn">
+          <img src="https://oscidec.com/portafolio/tiktok.jpg" alt="TT" onerror="this.src='https://cdn-icons-png.flaticon.com/512/3046/3046121.png'">
+          <span>TikTok</span>
+        </a>
+      </div>
+      <a href="mailto:georginaitzel8@gmail.com" class="email-btn">✉️ georginaitzel8@gmail.com</a>
+      <a href="https://api.whatsapp.com/send/?phone=50766552649&type=phone_number&app_absent=0" target="_blank" class="whatsapp-btn-big">💬 WhatsApp</a>
     </div>
-    <div class="input-group">
-      <label>Tu nombre</label>
-      <input type="text" id="playerName" placeholder="Ej: María López">
-    </div>
-    <button class="btn btn-success" onclick="joinRoom()">Unirme</button>
-    <button class="btn btn-outline" onclick="showScreen('home')">← Volver</button>
-  </div>
-
-  <!-- SALA DE ESPERA -->
-  <div id="screen-lobby" class="card hidden">
-    <h2 style="text-align:center; color:var(--brown-dark);">Sala de Espera</h2>
-    <div class="room-code" id="displayCode">------</div>
-    <p class="status-text" id="lobbyStatus">Esperando jugadores...</p>
-
-    <div class="players-list" id="playersList"></div>
-
-    <div id="hostControls" class="hidden">
-      <button class="btn btn-primary" id="btnStart" onclick="startGame()" disabled>
-        🎮 Iniciar Juego (se necesita 4 jugadores)
-      </button>
-    </div>
-
-    <div id="waitingMessage" class="waiting-box">
-      <div class="hourglass">⏳</div>
-      <p>Esperando a que el Anfitrión inicie el juego...</p>
-    </div>
-  </div>
-
-  <!-- JUEGO -->
-  <div id="screen-game" class="card hidden">
-    <div style="text-align:center; margin-bottom:8px;">
-      <strong id="progressText">Pregunta 1 de 20</strong>
-    </div>
-    <div class="score-board" id="scoreBoard"></div>
-    <div class="timer" id="timerText">10</div>
-    <div class="question-box">
-      <div id="questionText">Cargando pregunta...</div>
-    </div>
-    <div class="options" id="optionsContainer"></div>
-    <div id="feedback" style="text-align:center; margin-top:14px; font-weight:700;"></div>
-  </div>
-
-  <!-- RESULTADOS -->
-  <div id="screen-end" class="card hidden">
-    <h2 style="text-align:center; color:var(--brown-dark);">🏁 ¡Juego Terminado!</h2>
-    <div id="finalPodium" style="margin:20px 0;"></div>
-    <button class="btn btn-primary" onclick="location.reload()">🔄 Nueva Partida</button>
   </div>
 
 </div>
 
 <footer class="footer">
-  Delicias Georgina · Algebraic Duel 3D<br>
-  Universidad Del Istmo · Matemáticas I
+  <img src="https://oscidec.com/portafolio/delicias.jpg" class="footer-logo" alt="Logo" onerror="this.style.display='none'">
+  <h3>Delicias Georgina</h3>
+  <p>Repostería · Panadería · Refresquería</p>
+  <p>Desarrollado por <a href="mailto:georginaitzel8@gmail.com">Georgina Itzel Flores Ojo</a></p>
+  <div class="footer-socials">
+    <a href="https://www.instagram.com/deliciasgeorgina" target="_blank"><img src="https://oscidec.com/portafolio/instagram.jpg" onerror="this.src='https://cdn-icons-png.flaticon.com/512/174/174855.png'"></a>
+    <a href="https://www.facebook.com/share/19MmvsbDyi/" target="_blank"><img src="https://oscidec.com/portafolio/facebook.jpg" onerror="this.src='https://cdn-icons-png.flaticon.com/512/733/733547.png'"></a>
+    <a href="https://www.tiktok.com/@deliciasgeorgina" target="_blank"><img src="https://oscidec.com/portafolio/tiktok.jpg" onerror="this.src='https://cdn-icons-png.flaticon.com/512/3046/3046121.png'"></a>
+  </div>
+  <p><a href="https://api.whatsapp.com/send/?phone=50766552649&type=phone_number&app_absent=0" target="_blank">WhatsApp</a> · <a href="mailto:georginaitzel8@gmail.com">georginaitzel8@gmail.com</a></p>
+  <div class="footer-bottom">
+    © 2026 Algebraic Duel · Universidad Del Istmo<br>
+    Matemáticas I · VIRT-2026-2-AGO-[3-B] · Profesora: Mauyuri Meza
+  </div>
 </footer>
 
 <script type="module">
-  // ========== FIREBASE ==========
   import { initializeApp } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-app.js";
-  import { getDatabase, ref, set, onValue, update, push, get, remove } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-database.js";
+  import { getDatabase, ref, set, onValue, update, get } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-database.js";
 
   const firebaseConfig = {
     apiKey: "AIzaSyC_BocqDQ1Lxi6zOls0N7tphSnaYFrNIIc",
@@ -234,17 +460,11 @@
   const app = initializeApp(firebaseConfig);
   const db = getDatabase(app);
 
-  // ========== ESTADO ==========
-  let roomCode = null;
-  let playerId = null;
-  let isHost = false;
-  let myName = "";
-  let players = {};
-  let currentQuestion = 0;
-  let questionsAnswered = 0;
+  // Estado
+  let roomCode = null, playerId = null, isHost = false, myName = "";
+  let players = {}, currentQuestion = 0;
   const totalQuestions = 20;
-  let timerInterval = null;
-  let canAnswer = false;
+  let timerInterval = null, canAnswer = false;
 
   const questions = [
     { q: "¿Cómo se clasifica: −5x (un solo término)?", options: ["Monomio", "Binomio", "Trinomio", "Polinomio"], correct: 0 },
@@ -269,23 +489,45 @@
     { q: "¿Qué expresión es un trinomio?", options: ["3x", "2x + 5", "x² + 2x + 1", "x³ + x² + x + 1"], correct: 2 }
   ];
 
-  // ========== NAVEGACIÓN ==========
-  window.showScreen = function(name) {
-    document.querySelectorAll('[id^="screen-"]').forEach(el => el.classList.add('hidden'));
-    document.getElementById('screen-' + name).classList.remove('hidden');
+  // Navegación general
+  window.showSection = function(name) {
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('section-' + name)?.classList.add('active');
+    document.getElementById('nav-' + name)?.classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
-  // ========== CREAR SALA ==========
+  window.toggleAccordion = function(header) {
+    const content = header.nextElementSibling;
+    const isActive = header.classList.contains('active');
+    document.querySelectorAll('.accordion-header').forEach(h => {
+      h.classList.remove('active');
+      h.nextElementSibling.classList.remove('show');
+    });
+    if (!isActive) {
+      header.classList.add('active');
+      content.classList.add('show');
+    }
+  }
+
+  // Navegación dentro de Jugar
+  window.showPlayScreen = function(name) {
+    ['home','create','join','lobby','game','end'].forEach(s => {
+      document.getElementById('play-' + s)?.classList.add('hidden');
+    });
+    document.getElementById('play-' + name)?.classList.remove('hidden');
+  }
+
+  // Crear Sala
   window.createRoom = async function() {
     myName = document.getElementById('hostName').value.trim();
     if (!myName) return alert('Escribe tu nombre');
 
-    // Generar código
     roomCode = 'DUEL-' + Math.floor(1000 + Math.random() * 9000);
     playerId = 'host_' + Date.now();
     isHost = true;
 
-    // Crear sala en Firebase
     await set(ref(db, 'rooms/' + roomCode), {
       status: 'waiting',
       hostId: playerId,
@@ -298,30 +540,25 @@
     document.getElementById('displayCode').textContent = roomCode;
     document.getElementById('hostControls').classList.remove('hidden');
     document.getElementById('waitingMessage').classList.add('hidden');
-    showScreen('lobby');
+    showPlayScreen('lobby');
     listenToRoom();
   }
 
-  // ========== UNIRSE A SALA ==========
+  // Unirse
   window.joinRoom = async function() {
     roomCode = document.getElementById('joinCode').value.trim().toUpperCase();
     myName = document.getElementById('playerName').value.trim();
     if (!roomCode || !myName) return alert('Completa todos los campos');
 
-    // Verificar que la sala exista
     const snapshot = await get(ref(db, 'rooms/' + roomCode));
-    if (!snapshot.exists()) return alert('La sala no existe. Revisa el código.');
-
+    if (!snapshot.exists()) return alert('La sala no existe');
     const room = snapshot.val();
-    if (room.status !== 'waiting') return alert('La partida ya comenzó o terminó.');
-
-    const playerCount = Object.keys(room.players || {}).length;
-    if (playerCount >= 4) return alert('La sala ya está llena (máximo 4 jugadores).');
+    if (room.status !== 'waiting') return alert('La partida ya comenzó');
+    if (Object.keys(room.players || {}).length >= 4) return alert('Sala llena');
 
     playerId = 'player_' + Date.now();
     isHost = false;
 
-    // Agregar jugador
     await update(ref(db, 'rooms/' + roomCode + '/players'), {
       [playerId]: { name: myName, score: 0, correctAnswers: 0 }
     });
@@ -329,179 +566,137 @@
     document.getElementById('displayCode').textContent = roomCode;
     document.getElementById('hostControls').classList.add('hidden');
     document.getElementById('waitingMessage').classList.remove('hidden');
-    showScreen('lobby');
+    showPlayScreen('lobby');
     listenToRoom();
   }
 
-  // ========== ESCUCHAR CAMBIOS DE LA SALA ==========
   function listenToRoom() {
-    onValue(ref(db, 'rooms/' + roomCode), (snapshot) => {
-      const room = snapshot.val();
+    onValue(ref(db, 'rooms/' + roomCode), (snap) => {
+      const room = snap.val();
       if (!room) return;
-
       players = room.players || {};
-      renderPlayersList();
+      renderPlayers();
 
-      // Actualizar botón de inicio (solo host)
       if (isHost) {
         const count = Object.keys(players).length;
         const btn = document.getElementById('btnStart');
         btn.disabled = count < 4;
-        btn.textContent = count < 4 
-          ? `🎮 Iniciar Juego (${count}/4 jugadores)` 
-          : '🎮 ¡Iniciar Juego!';
+        btn.textContent = count < 4 ? `🎮 Iniciar (${count}/4)` : '🎮 ¡Iniciar Juego!';
       }
 
-      // Si el juego empezó
-      if (room.status === 'playing' && document.getElementById('screen-lobby').classList.contains('hidden') === false) {
+      if (room.status === 'playing') {
         currentQuestion = room.currentQuestion || 0;
-        showScreen('game');
+        showPlayScreen('game');
         loadQuestion();
       }
-
-      // Si el juego terminó
       if (room.status === 'finished') {
         showResults(room.players);
       }
     });
   }
 
-  function renderPlayersList() {
+  function renderPlayers() {
     const list = document.getElementById('playersList');
     list.innerHTML = '';
     let i = 1;
     for (const id in players) {
-      list.innerHTML += `
-        <div class="player-item">
-          <div class="player-num">${i}</div>
-          <div><strong>${players[id].name}</strong></div>
-        </div>`;
+      list.innerHTML += `<div class="player-item"><div class="player-num">${i}</div><strong>${players[id].name}</strong></div>`;
       i++;
     }
-    document.getElementById('lobbyStatus').textContent = 
-      Object.keys(players).length + ' / 4 jugadores conectados';
+    document.getElementById('lobbyStatus').textContent = Object.keys(players).length + ' / 4 jugadores';
   }
 
-  // ========== INICIAR JUEGO (solo host) ==========
   window.startGame = async function() {
     if (!isHost) return;
-    await update(ref(db, 'rooms/' + roomCode), {
-      status: 'playing',
-      currentQuestion: 0,
-      startTime: Date.now()
-    });
+    await update(ref(db, 'rooms/' + roomCode), { status: 'playing', currentQuestion: 0 });
   }
 
-  // ========== LÓGICA DEL JUEGO ==========
   function loadQuestion() {
     if (currentQuestion >= totalQuestions) {
-      finishGame();
+      if (isHost) update(ref(db, 'rooms/' + roomCode), { status: 'finished' });
       return;
     }
-
     const q = questions[currentQuestion];
-    document.getElementById('progressText').textContent = `Pregunta ${currentQuestion + 1} de ${totalQuestions}`;
+    document.getElementById('progressText').textContent = `Pregunta ${currentQuestion+1} de ${totalQuestions}`;
     document.getElementById('questionText').textContent = q.q;
     document.getElementById('feedback').textContent = '';
 
-    const container = document.getElementById('optionsContainer');
-    container.innerHTML = '';
+    const cont = document.getElementById('optionsContainer');
+    cont.innerHTML = '';
     q.options.forEach((opt, idx) => {
       const btn = document.createElement('button');
       btn.className = 'option-btn';
-      btn.textContent = String.fromCharCode(65 + idx) + '. ' + opt;
-      btn.onclick = () => answerQuestion(idx);
-      container.appendChild(btn);
+      btn.textContent = String.fromCharCode(65+idx) + '. ' + opt;
+      btn.onclick = () => answer(idx);
+      cont.appendChild(btn);
     });
 
-    // Timer local de 10 segundos
-    let timeLeft = 10;
-    document.getElementById('timerText').textContent = timeLeft;
+    let time = 10;
+    document.getElementById('timerText').textContent = time;
     canAnswer = true;
     clearInterval(timerInterval);
     timerInterval = setInterval(() => {
-      timeLeft--;
-      document.getElementById('timerText').textContent = timeLeft;
-      if (timeLeft <= 0) {
+      time--;
+      document.getElementById('timerText').textContent = time;
+      const pct = (time/10)*100;
+      document.getElementById('timerCircle').style.background = `conic-gradient(var(--coral) ${pct}%, var(--beige) ${pct}%)`;
+      if (time <= 0) {
         clearInterval(timerInterval);
         canAnswer = false;
         document.getElementById('feedback').textContent = '⏰ Tiempo agotado';
-        setTimeout(nextQuestion, 1500);
+        setTimeout(nextQ, 1500);
       }
     }, 1000);
-
-    updateScoreBoard();
+    updateScores();
   }
 
-  async function answerQuestion(selected) {
+  async function answer(selected) {
     if (!canAnswer) return;
     canAnswer = false;
     clearInterval(timerInterval);
+    document.querySelectorAll('.option-btn').forEach(b => b.disabled = true);
 
     const q = questions[currentQuestion];
-    const buttons = document.querySelectorAll('.option-btn');
-    buttons.forEach(b => b.disabled = true);
-
     if (selected === q.correct) {
-      // Sumar puntos
       const newScore = (players[playerId]?.score || 0) + 10;
-      const newCorrect = (players[playerId]?.correctAnswers || 0) + 1;
       await update(ref(db, `rooms/${roomCode}/players/${playerId}`), {
         score: newScore,
-        correctAnswers: newCorrect
+        correctAnswers: (players[playerId]?.correctAnswers || 0) + 1
       });
-      document.getElementById('feedback').textContent = '✅ ¡Correcto! +10 pts';
+      document.getElementById('feedback').textContent = '✅ ¡Correcto! +10';
       document.getElementById('feedback').style.color = '#2a9d8f';
     } else {
       document.getElementById('feedback').textContent = '❌ Incorrecto';
       document.getElementById('feedback').style.color = '#e63946';
     }
-
-    setTimeout(nextQuestion, 1800);
+    setTimeout(nextQ, 1800);
   }
 
-  async function nextQuestion() {
+  async function nextQ() {
     currentQuestion++;
     if (isHost) {
-      // Solo el host actualiza la pregunta para todos
-      await update(ref(db, 'rooms/' + roomCode), {
-        currentQuestion: currentQuestion
-      });
+      await update(ref(db, 'rooms/' + roomCode), { currentQuestion });
     }
-    // Todos escuchan el cambio y cargan la siguiente
     loadQuestion();
   }
 
-  function updateScoreBoard() {
+  function updateScores() {
     const board = document.getElementById('scoreBoard');
     board.innerHTML = '';
     for (const id in players) {
-      board.innerHTML += `
-        <div class="player-card">
-          <strong>${players[id].name}</strong><br>
-          ${players[id].score || 0} pts
-        </div>`;
-    }
-  }
-
-  async function finishGame() {
-    if (isHost) {
-      await update(ref(db, 'rooms/' + roomCode), { status: 'finished' });
+      board.innerHTML += `<div class="player-card"><strong>${players[id].name}</strong><br>${players[id].score||0} pts</div>`;
     }
   }
 
   function showResults(finalPlayers) {
-    showScreen('end');
-    const sorted = Object.values(finalPlayers).sort((a, b) => (b.score || 0) - (a.score || 0));
-    const medals = ['🥇', '🥈', '🥉', '💎'];
+    showPlayScreen('end');
+    const sorted = Object.values(finalPlayers).sort((a,b) => (b.score||0) - (a.score||0));
+    const medals = ['🥇','🥈','🥉','💎'];
     let html = '';
-    sorted.forEach((p, i) => {
-      html += `<div style="background:#f8f4ef; padding:14px; border-radius:12px; margin-bottom:10px; display:flex; align-items:center; gap:12px;">
-        <span style="font-size:1.8rem;">${medals[i] || '•'}</span>
-        <div>
-          <strong>${p.name}</strong><br>
-          <span style="color:var(--gold); font-weight:700;">${p.score || 0} pts</span>
-        </div>
+    sorted.forEach((p,i) => {
+      html += `<div class="podium-card">
+        <div class="podium-medal">${medals[i]||'•'}</div>
+        <div><strong>${p.name}</strong><br><span style="color:var(--gold);font-weight:700">${p.score||0} pts</span></div>
       </div>`;
     });
     document.getElementById('finalPodium').innerHTML = html;
