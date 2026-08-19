@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
   <title>Algebraic Duel 3D | Delicias Georgina</title>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
@@ -10,32 +10,34 @@
       --cream: #faf5ef; --beige: #e8d9c4; --brown: #8b5e3c; --brown-dark: #5c3d2e;
       --gold: #c9a227; --coral: #e07a5f; --success: #2a9d8f; --danger: #e63946;
       --text: #3d2b1f; --text-light: #7a6a5a; --white: #fffdf9;
+      --kahoot-red: #e21b3c; --kahoot-blue: #1368ce; --kahoot-yellow: #d89e00; --kahoot-green: #26890c;
     }
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
       font-family: 'Poppins', sans-serif;
       background: linear-gradient(160deg, #faf5ef 0%, #f5ebe0 50%, #faf5ef 100%);
-      color: var(--text); min-height: 100vh; line-height: 1.55;
+      color: var(--text); min-height: 100vh; line-height: 1.5;
     }
     h1, h2, h3 { font-family: 'Playfair Display', serif; }
 
+    /* NAV */
     .navbar {
       position: sticky; top: 0; z-index: 1000;
       background: rgba(255,253,249,0.97); backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--beige); padding: 10px 16px;
       display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px;
+      transition: transform 0.4s ease;
     }
+    .navbar.hidden-nav { transform: translateY(-100%); }
     .nav-brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--brown-dark); }
     .nav-brand img { width: 42px; height: 42px; border-radius: 50%; object-fit: cover; border: 2px solid var(--gold); }
-    .nav-brand span { font-family: 'Playfair Display', serif; font-weight: 700; font-size: 1.15rem; }
-    .nav-links { display: flex; gap: 6px; flex-wrap: wrap; }
+    .nav-brand span { font-weight: 700; font-size: 1.15rem; }
+    .nav-links { display: flex; gap: 6px; }
     .nav-btn {
       padding: 7px 14px; border-radius: 50px; border: none; background: transparent;
-      color: var(--brown); font-weight: 600; font-size: 0.88rem; cursor: pointer; transition: 0.25s;
+      color: var(--brown); font-weight: 600; font-size: 0.88rem; cursor: pointer;
     }
-    .nav-btn.active, .nav-btn:hover {
-      background: linear-gradient(135deg, var(--coral), #d4654a); color: white;
-    }
+    .nav-btn.active, .nav-btn:hover { background: linear-gradient(135deg, var(--coral), #d4654a); color: white; }
 
     .main-container { max-width: 900px; margin: 0 auto; padding: 20px 14px 90px; }
     .card {
@@ -44,7 +46,7 @@
     }
     .section { display: none; animation: fadeIn 0.4s ease; }
     .section.active { display: block; }
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
     /* HERO */
     .hero { text-align: center; padding: 32px 20px 24px; }
@@ -59,40 +61,34 @@
       display: inline-block; background: linear-gradient(135deg,#c9a227,#e0b84a);
       color: white; padding: 5px 18px; border-radius: 50px; font-size: 0.88rem; font-weight: 600; margin-bottom: 12px;
     }
-    .hero h1 { font-size: 2.3rem; color: var(--brown-dark); margin-bottom: 4px; }
-    .hero h2 { font-size: 1.2rem; color: var(--text-light); font-weight: 500; margin-bottom: 18px; }
-
+    .hero h1 { font-size: 2.2rem; color: var(--brown-dark); margin-bottom: 4px; }
+    .hero h2 { font-size: 1.15rem; color: var(--text-light); margin-bottom: 16px; }
     .info-box {
       background: linear-gradient(135deg,#faf5ef,#f5ebe0); border: 1px solid var(--beige);
-      border-radius: 14px; padding: 16px; margin: 18px 0; text-align: left; font-size: 0.92rem; color: var(--text-light);
+      border-radius: 14px; padding: 16px; margin: 16px 0; text-align: left; font-size: 0.92rem; color: var(--text-light);
     }
     .info-box strong { color: var(--brown-dark); }
-
     .cta-btn {
       display: inline-flex; align-items: center; gap: 8px; padding: 14px 32px; border-radius: 50px; border: none;
       background: linear-gradient(135deg, var(--coral), #d4654a); color: white; font-size: 1.1rem; font-weight: 700;
-      cursor: pointer; box-shadow: 0 8px 24px rgba(224,122,95,0.4); margin: 8px 6px; transition: 0.25s;
+      cursor: pointer; box-shadow: 0 8px 24px rgba(224,122,95,0.4); margin: 8px 6px;
     }
-    .cta-btn:hover { transform: translateY(-3px); }
-    .cta-btn.secondary { background: white; color: var(--brown); border: 2px solid var(--beige); box-shadow: none; }
 
     /* ACORDEÓN */
-    .accordion { margin: 20px 0 10px; text-align: left; }
-    .accordion-item { margin-bottom: 10px; border: 1px solid var(--beige); border-radius: 12px; overflow: hidden; background: white; }
+    .accordion { margin: 18px 0 8px; text-align: left; }
+    .accordion-item { margin-bottom: 10px; border: 1px solid var(--beige); border-radius: 12px; overflow: hidden; }
     .accordion-header {
       padding: 14px 18px; cursor: pointer; display: flex; justify-content: space-between; align-items: center;
-      background: linear-gradient(135deg,#faf5ef,#f5ebe0); font-weight: 600; color: var(--brown-dark); font-size: 0.98rem;
+      background: linear-gradient(135deg,#faf5ef,#f5ebe0); font-weight: 600; color: var(--brown-dark);
     }
     .accordion-header .arrow { transition: transform 0.3s; color: var(--coral); }
     .accordion-header.active .arrow { transform: rotate(180deg); }
-    .accordion-content { max-height: 0; overflow: hidden; transition: max-height 0.45s ease; }
-    .accordion-content.show { max-height: 900px; }
+    .accordion-content { max-height: 0; overflow: hidden; transition: max-height 0.4s ease; }
+    .accordion-content.show { max-height: 800px; }
     .accordion-content-inner { padding: 14px 18px; border-top: 1px solid var(--beige); font-size: 0.92rem; }
-    .accordion-content-inner ul { list-style: none; padding: 0; }
-    .accordion-content-inner li { padding: 5px 0; display: flex; gap: 8px; }
 
     /* MULTIJUGADOR */
-    .multi-box { padding: 24px 20px; text-align: center; }
+    .multi-box { padding: 28px 20px; text-align: center; }
     .input-group { margin-bottom: 14px; text-align: left; }
     .input-group label { display: block; font-size: 0.85rem; font-weight: 600; color: var(--brown); margin-bottom: 5px; }
     .input-group input {
@@ -101,77 +97,112 @@
     }
     .input-group input:focus { border-color: var(--coral); }
     .room-code {
-      font-size: 2rem; font-weight: 700; letter-spacing: 3px; color: var(--coral);
+      font-size: 2.1rem; font-weight: 700; letter-spacing: 4px; color: var(--coral);
       background: #fff8f0; padding: 14px; border-radius: 14px; border: 2px dashed var(--gold); margin: 16px 0;
     }
     .players-list { margin: 16px 0; text-align: left; }
     .player-item {
       display: flex; align-items: center; gap: 12px; background: #f8f4ef;
       border-radius: 12px; padding: 12px 14px; margin-bottom: 8px; border: 1px solid var(--beige);
+      animation: slideIn 0.4s ease;
     }
+    @keyframes slideIn { from { opacity: 0; transform: translateX(-20px); } to { opacity: 1; transform: translateX(0); } }
     .player-num {
-      width: 30px; height: 30px; border-radius: 50%; background: var(--coral); color: white;
-      display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.9rem;
+      width: 32px; height: 32px; border-radius: 50%; background: var(--coral); color: white;
+      display: flex; align-items: center; justify-content: center; font-weight: 700;
     }
-    .waiting-box { text-align: center; padding: 24px 10px; }
-    .hourglass { font-size: 3.2rem; animation: spin 2s linear infinite; display: inline-block; }
+    .waiting-box { text-align: center; padding: 30px 10px; }
+    .hourglass { font-size: 3.5rem; animation: spin 2s linear infinite; display: inline-block; }
     @keyframes spin { from{transform:rotate(0)} to{transform:rotate(360deg)} }
     .btn-main {
-      width: 100%; padding: 14px; border: none; border-radius: 14px; font-size: 1.05rem;
-      font-weight: 700; cursor: pointer; font-family: inherit; margin-top: 10px; transition: 0.25s;
+      width: 100%; padding: 15px; border: none; border-radius: 14px; font-size: 1.05rem;
+      font-weight: 700; cursor: pointer; font-family: inherit; margin-top: 10px;
     }
     .btn-primary { background: linear-gradient(135deg, var(--coral), #d4654a); color: white; }
     .btn-success { background: linear-gradient(135deg, var(--success), #21867a); color: white; }
     .btn-outline { background: white; border: 2px solid var(--beige); color: var(--brown); }
     .btn-main:disabled { opacity: 0.55; cursor: not-allowed; }
 
-    /* JUEGO */
-    .game-header { text-align: center; padding: 18px 14px 6px; }
-    .progress-text { text-align: center; font-weight: 700; color: var(--brown-dark); margin: 6px 0; }
-    .score-board { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; padding: 0 14px 12px; }
-    @media(min-width:600px){ .score-board { grid-template-columns: repeat(4, 1fr); } }
-    .player-card {
-      background: white; border: 2px solid var(--beige); border-radius: 12px;
-      padding: 10px 6px; text-align: center; font-size: 0.85rem;
+    /* ========== PANTALLA DE JUEGO ESTILO KAHOOT ========== */
+    .game-screen {
+      position: fixed; inset: 0; background: #1a1a2e; z-index: 2000;
+      display: flex; flex-direction: column; color: white; overflow-y: auto;
     }
-    .timer-container { display: flex; justify-content: center; margin: 8px 0 14px; }
-    .timer-circle {
-      width: 90px; height: 90px; border-radius: 50%;
-      background: conic-gradient(var(--coral) 0%, var(--beige) 0%);
-      display: flex; align-items: center; justify-content: center; position: relative;
+    .game-top {
+      padding: 12px 16px; display: flex; justify-content: space-between; align-items: center;
+      background: rgba(0,0,0,0.3);
     }
-    .timer-circle::before {
-      content: ''; position: absolute; width: 70px; height: 70px;
-      border-radius: 50%; background: var(--white);
+    .game-progress { font-weight: 700; font-size: 1rem; }
+    .game-timer {
+      width: 60px; height: 60px; border-radius: 50%; background: #fff;
+      color: #1a1a2e; display: flex; align-items: center; justify-content: center;
+      font-size: 1.6rem; font-weight: 800; box-shadow: 0 0 0 6px rgba(255,255,255,0.2);
+      transition: all 0.3s;
     }
-    .timer-text { position: relative; z-index: 2; font-size: 1.9rem; font-weight: 700; color: var(--brown-dark); }
-    .question-box {
-      background: white; margin: 0 14px 14px; padding: 18px; border-radius: 14px;
-      border: 2px solid var(--beige); text-align: center;
-    }
-    .question-text { font-size: 1.15rem; font-weight: 600; margin-top: 8px; }
-    .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 0 14px 14px; }
-    .option-btn {
-      padding: 16px 10px; border: none; border-radius: 14px; color: white;
-      font-weight: 600; font-size: 0.95rem; cursor: pointer; min-height: 90px;
-      display: flex; flex-direction: column; align-items: center; justify-content: center;
-    }
-    .option-btn:nth-child(1){background:linear-gradient(135deg,#e07a5f,#c45c45)}
-    .option-btn:nth-child(2){background:linear-gradient(135deg,#2a9d8f,#1d7a6f)}
-    .option-btn:nth-child(3){background:linear-gradient(135deg,#c9a227,#a8871c)}
-    .option-btn:nth-child(4){background:linear-gradient(135deg,#8b5e3c,#6a4630)}
-    .option-btn:disabled { opacity: 0.6; }
-    .feedback { text-align: center; font-weight: 700; font-size: 1.1rem; min-height: 28px; margin: 8px 14px; }
+    .game-timer.critical { background: var(--danger); color: white; animation: pulseTimer 0.5s infinite; }
+    @keyframes pulseTimer { 0%,100%{transform:scale(1)} 50%{transform:scale(1.1)} }
 
-    /* PODIO */
-    .end-screen { text-align: center; padding: 28px 18px; }
+    .game-scores {
+      display: flex; gap: 8px; padding: 10px 12px; overflow-x: auto;
+      background: rgba(0,0,0,0.2);
+    }
+    .game-score-card {
+      background: rgba(255,255,255,0.1); border-radius: 10px; padding: 8px 12px;
+      min-width: 90px; text-align: center; font-size: 0.85rem; flex-shrink: 0;
+    }
+    .game-score-card strong { display: block; font-size: 1.1rem; }
+
+    .game-question {
+      flex: 1; display: flex; flex-direction: column; justify-content: center;
+      padding: 20px 16px; text-align: center;
+    }
+    .game-question h2 {
+      font-size: 1.4rem; font-weight: 700; line-height: 1.4;
+      background: rgba(255,255,255,0.1); padding: 20px; border-radius: 16px;
+      animation: popIn 0.5s ease;
+    }
+    @keyframes popIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
+
+    .game-options {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+      padding: 16px; max-width: 700px; margin: 0 auto; width: 100%;
+    }
+    .game-option {
+      border: none; color: white; font-weight: 700; font-size: 1.05rem;
+      padding: 22px 12px; border-radius: 12px; cursor: pointer;
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+      min-height: 90px; transition: all 0.25s; position: relative;
+      box-shadow: 0 6px 0 rgba(0,0,0,0.25);
+    }
+    .game-option:active { transform: translateY(4px); box-shadow: 0 2px 0 rgba(0,0,0,0.25); }
+    .game-option:nth-child(1) { background: var(--kahoot-red); }
+    .game-option:nth-child(2) { background: var(--kahoot-blue); }
+    .game-option:nth-child(3) { background: var(--kahoot-yellow); color: #1a1a2e; }
+    .game-option:nth-child(4) { background: var(--kahoot-green); }
+    .game-option .shape {
+      width: 28px; height: 28px; display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem;
+    }
+    .game-option:disabled { opacity: 0.7; cursor: not-allowed; }
+    .game-option.correct { animation: correctAnim 0.6s; box-shadow: 0 0 0 4px #fff, 0 6px 0 rgba(0,0,0,0.25); }
+    .game-option.wrong { opacity: 0.4; }
+    @keyframes correctAnim { 0%,100%{transform:scale(1)} 50%{transform:scale(1.08)} }
+
+    .game-feedback {
+      text-align: center; font-size: 1.4rem; font-weight: 800; padding: 12px;
+      min-height: 50px;
+    }
+
+    /* RESULTADOS */
+    .end-screen { text-align: center; padding: 30px 18px; }
     .podium-card {
       background: white; padding: 14px; border-radius: 14px; margin-bottom: 10px;
       border: 1px solid var(--beige); display: flex; align-items: center; gap: 14px; text-align: left;
+      animation: slideIn 0.5s ease;
     }
-    .podium-medal { font-size: 2.1rem; min-width: 46px; text-align: center; }
+    .podium-medal { font-size: 2.2rem; min-width: 48px; text-align: center; }
 
-    /* CONTACTO */
+    /* CONTACTO & FOOTER */
     .contact-section { padding: 28px 20px; text-align: center; }
     .social-grid { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; margin: 20px 0; }
     .social-btn { display: flex; flex-direction: column; align-items: center; gap: 6px; text-decoration: none; color: var(--brown-dark); }
@@ -183,13 +214,12 @@
     .email-btn { background: linear-gradient(135deg,#5c6bc0,#3949ab); color: white; }
     .whatsapp-btn-big { background: linear-gradient(135deg,#25D366,#128C7E); color: white; }
 
-    /* FOOTER */
     .footer {
       background: linear-gradient(135deg,#5c3d2e,#3d2b1f); color: #f5ebe0;
       text-align: center; padding: 30px 16px 24px; margin-top: 30px;
     }
     .footer-logo { width: 60px; height: 60px; border-radius: 50%; object-fit: cover; border: 3px solid var(--gold); margin-bottom: 10px; }
-    .footer h3 { font-family: 'Playfair Display', serif; font-size: 1.3rem; color: white; margin-bottom: 4px; }
+    .footer h3 { font-size: 1.3rem; color: white; margin-bottom: 4px; }
     .footer a { color: var(--gold); text-decoration: none; font-weight: 600; }
     .footer-socials { display: flex; justify-content: center; gap: 12px; margin: 14px 0 10px; }
     .footer-socials a img { width: 34px; height: 34px; border-radius: 8px; object-fit: cover; }
@@ -199,19 +229,24 @@
       position: fixed; bottom: 20px; right: 18px; z-index: 999;
       width: 54px; height: 54px; border-radius: 50%; background: #25D366;
       display: flex; align-items: center; justify-content: center;
-      box-shadow: 0 6px 22px rgba(37,211,102,0.5); animation: pulse 2.4s infinite;
+      box-shadow: 0 6px 22px rgba(37,211,102,0.5); transition: opacity 0.3s, transform 0.3s;
     }
-    @keyframes pulse { 0%,100%{box-shadow:0 6px 22px rgba(37,211,102,0.5)} 50%{box-shadow:0 6px 36px rgba(37,211,102,0.75)} }
+    .whatsapp-float.hide { opacity: 0; pointer-events: none; transform: scale(0.5); }
     .whatsapp-float svg { width: 26px; height: 26px; fill: white; }
 
     .hidden { display: none !important; }
+
+    @media (max-width: 600px) {
+      .game-question h2 { font-size: 1.15rem; padding: 16px; }
+      .game-option { font-size: 0.95rem; min-height: 80px; padding: 16px 10px; }
+    }
   </style>
 </head>
 <body>
 
-<nav class="navbar">
+<nav class="navbar" id="mainNav">
   <a href="#" class="nav-brand" onclick="showSection('home'); return false;">
-    <img src="https://oscidec.com/portafolio/delicias.jpg" alt="Logo" onerror="this.src='https://via.placeholder.com/42'">
+    <img src="https://oscidec.com/portafolio/delicias.jpg" alt="Logo">
     <span>Delicias Georgina</span>
   </a>
   <div class="nav-links">
@@ -221,23 +256,22 @@
   </div>
 </nav>
 
-<a href="https://api.whatsapp.com/send/?phone=50766552649&text=Hola%20Georgina&type=phone_number&app_absent=0" target="_blank" class="whatsapp-float">
+<a href="https://api.whatsapp.com/send/?phone=50766552649&text=Hola%20Georgina&type=phone_number&app_absent=0" target="_blank" class="whatsapp-float" id="waFloat">
   <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
 </a>
 
-<div class="main-container">
+<div class="main-container" id="mainContent">
 
-  <!-- ========== INICIO ========== -->
+  <!-- INICIO -->
   <div id="section-home" class="section active">
     <div class="card">
       <div class="hero">
         <div class="hero-logo">
-          <img src="https://oscidec.com/portafolio/delicias.jpg" alt="Delicias Georgina" onerror="this.parentElement.innerHTML='🍰'">
+          <img src="https://oscidec.com/portafolio/delicias.jpg" alt="Delicias Georgina">
         </div>
         <div class="brand-badge">Delicias Georgina · Repostería</div>
         <h1>Algebraic Duel 3D</h1>
         <h2>El Desafío de los Polinomios</h2>
-
         <div class="info-box">
           <p>
             <strong>👩‍🎓 Estudiante:</strong> Georgina Itzel Flores Ojo<br>
@@ -248,7 +282,6 @@
             <strong>📋 Actividad:</strong> Juego didáctico interactivo multijugador
           </p>
         </div>
-
         <div class="accordion">
           <div class="accordion-item">
             <div class="accordion-header" onclick="toggleAccordion(this)">
@@ -257,78 +290,59 @@
             <div class="accordion-content">
               <div class="accordion-content-inner">
                 <p><strong>👥 Jugadores:</strong> 4 personas (cada uno desde su celular)</p>
-                <p><strong>📝 Total de preguntas:</strong> 20</p>
-                <p><strong>⏱️ Tiempo por pregunta:</strong> 10 segundos</p>
-                <p><strong>🏆 Cómo ganar:</strong> Mayor puntuación al final</p>
-                <p><strong>➕ Puntos:</strong> +10 por respuesta correcta</p>
-                <p><strong>📱 Modalidad:</strong> Multijugador en tiempo real</p>
+                <p><strong>📝 Preguntas:</strong> 25</p>
+                <p><strong>⏱️ Tiempo:</strong> 20 segundos por pregunta</p>
+                <p><strong>✅ Respuesta correcta:</strong> +10 puntos</p>
+                <p><strong>❌ Respuesta incorrecta:</strong> −5 puntos</p>
+                <p><strong>🏆 Ganador:</strong> Quien tenga más puntos al final</p>
               </div>
             </div>
           </div>
           <div class="accordion-item">
             <div class="accordion-header" onclick="toggleAccordion(this)">
-              <span>🎯 Objetivos de Aprendizaje</span><span class="arrow">▼</span>
+              <span>🎯 Objetivos</span><span class="arrow">▼</span>
             </div>
             <div class="accordion-content">
               <div class="accordion-content-inner">
-                <ul>
-                  <li>✅ Identificar y clasificar expresiones algebraicas</li>
-                  <li>✅ Dominar operaciones con monomios y polinomios</li>
-                  <li>✅ Desarrollar rapidez mental algebraica</li>
-                  <li>✅ Fomentar el aprendizaje competitivo</li>
-                </ul>
+                <p>✅ Clasificar expresiones algebraicas</p>
+                <p>✅ Operaciones con monomios y polinomios</p>
+                <p>✅ Factorización y productos notables</p>
+                <p>✅ Rapidez mental algebraica</p>
               </div>
             </div>
           </div>
           <div class="accordion-item">
             <div class="accordion-header" onclick="toggleAccordion(this)">
-              <span>📚 Contenido Académico</span><span class="arrow">▼</span>
+              <span>🔗 Cómo jugar</span><span class="arrow">▼</span>
             </div>
             <div class="accordion-content">
               <div class="accordion-content-inner">
-                <p><strong>Clasificación:</strong> Monomio · Binomio · Trinomio · Polinomio</p>
-                <p><strong>Operaciones:</strong> Suma · Resta · Multiplicación · División · Factorización</p>
-              </div>
-            </div>
-          </div>
-          <div class="accordion-item">
-            <div class="accordion-header" onclick="toggleAccordion(this)">
-              <span>🔗 Cómo se juega (Multijugador)</span><span class="arrow">▼</span>
-            </div>
-            <div class="accordion-content">
-              <div class="accordion-content-inner">
-                <p>1. El <strong>Anfitrión</strong> crea una sala y obtiene un código.</p>
-                <p>2. Comparte el código con los demás jugadores.</p>
-                <p>3. Cada jugador entra desde su celular con el código.</p>
-                <p>4. Cuando haya 4 jugadores, el Anfitrión inicia el juego.</p>
-                <p>5. Todos responden al mismo tiempo desde sus dispositivos.</p>
+                <p>1. El Anfitrión crea una sala y comparte el código.</p>
+                <p>2. Los demás se unen desde su celular.</p>
+                <p>3. Cuando haya 4 jugadores, el Anfitrión inicia.</p>
+                <p>4. Todos responden al mismo tiempo.</p>
               </div>
             </div>
           </div>
         </div>
-
         <button class="cta-btn" onclick="showSection('play')">🚀 Jugar Ahora</button>
       </div>
     </div>
   </div>
 
-  <!-- ========== JUGAR (MULTIJUGADOR) ========== -->
+  <!-- JUGAR -->
   <div id="section-play" class="section">
     <div class="card">
-
-      <!-- Pantalla de selección -->
       <div id="play-home" class="multi-box">
-        <h2 style="color:var(--brown-dark); margin-bottom:8px;">🎮 Modo Multijugador</h2>
-        <p style="color:var(--text-light); margin-bottom:24px;">Cada jugador desde su propio celular</p>
+        <h2 style="color:var(--brown-dark);">🎮 Modo Multijugador</h2>
+        <p style="color:var(--text-light); margin: 10px 0 24px;">Cada jugador desde su propio celular</p>
         <button class="btn-main btn-primary" onclick="showPlayScreen('create')">👑 Crear Sala (Anfitrión)</button>
         <button class="btn-main btn-outline" onclick="showPlayScreen('join')">🔗 Unirme a una Sala</button>
-        <button class="btn-main btn-outline" onclick="showSection('home')" style="margin-top:16px;">← Volver al Inicio</button>
+        <button class="btn-main btn-outline" onclick="showSection('home')" style="margin-top:14px;">← Volver</button>
       </div>
 
-      <!-- Crear Sala -->
       <div id="play-create" class="multi-box hidden">
         <h2 style="color:var(--brown-dark);">Crear Sala</h2>
-        <p style="color:var(--text-light); margin-bottom:16px;">Serás el Anfitrión</p>
         <div class="input-group">
           <label>Tu nombre</label>
           <input type="text" id="hostName" placeholder="Ej: Georgina">
@@ -337,12 +351,11 @@
         <button class="btn-main btn-outline" onclick="showPlayScreen('home')">← Volver</button>
       </div>
 
-      <!-- Unirse -->
       <div id="play-join" class="multi-box hidden">
         <h2 style="color:var(--brown-dark);">Unirse a Sala</h2>
         <div class="input-group">
           <label>Código de la sala</label>
-          <input type="text" id="joinCode" placeholder="Ej: DUEL-4829" style="text-transform:uppercase; letter-spacing:2px;">
+          <input type="text" id="joinCode" placeholder="DUEL-4829" style="text-transform:uppercase; letter-spacing:2px;">
         </div>
         <div class="input-group">
           <label>Tu nombre</label>
@@ -352,81 +365,68 @@
         <button class="btn-main btn-outline" onclick="showPlayScreen('home')">← Volver</button>
       </div>
 
-      <!-- Lobby -->
       <div id="play-lobby" class="multi-box hidden">
         <h2 style="color:var(--brown-dark);">Sala de Espera</h2>
         <div class="room-code" id="displayCode">------</div>
         <p id="lobbyStatus" style="color:var(--text-light);">Esperando jugadores...</p>
         <div class="players-list" id="playersList"></div>
-
         <div id="hostControls" class="hidden">
-          <button class="btn-main btn-primary" id="btnStart" onclick="startGame()" disabled>
-            🎮 Iniciar Juego
-          </button>
+          <button class="btn-main btn-primary" id="btnStart" onclick="startGame()" disabled>🎮 Iniciar Juego</button>
         </div>
         <div id="waitingMessage" class="waiting-box hidden">
           <div class="hourglass">⏳</div>
-          <p>Esperando a que el Anfitrión inicie el juego...</p>
+          <p>Esperando al Anfitrión...</p>
         </div>
       </div>
-
-      <!-- Juego -->
-      <div id="play-game" class="hidden">
-        <div class="game-header">
-          <h2 style="color:var(--brown-dark);">⚔️ Algebraic Duel</h2>
-        </div>
-        <div class="progress-text" id="progressText">Pregunta 1 de 20</div>
-        <div class="score-board" id="scoreBoard"></div>
-        <div class="timer-container">
-          <div class="timer-circle" id="timerCircle">
-            <div class="timer-text" id="timerText">10</div>
-          </div>
-        </div>
-        <div class="question-box">
-          <div class="question-text" id="questionText">Cargando...</div>
-        </div>
-        <div class="options-grid" id="optionsContainer"></div>
-        <div class="feedback" id="feedback"></div>
-      </div>
-
-      <!-- Resultados -->
-      <div id="play-end" class="end-screen hidden">
-        <h1 style="color:var(--brown-dark);">🏁 ¡Juego Terminado!</h1>
-        <div id="finalPodium"></div>
-        <button class="cta-btn" onclick="location.reload()">🔄 Nueva Partida</button>
-      </div>
-
     </div>
   </div>
 
-  <!-- ========== CONTACTO ========== -->
+  <!-- CONTACTO -->
   <div id="section-contact" class="section">
     <div class="card contact-section">
       <h2 style="color:var(--brown-dark);">📬 Contacto & Redes</h2>
-      <p style="color:var(--text-light); margin-bottom:20px;">¿Dudas sobre el juego o Delicias Georgina?</p>
       <div class="social-grid">
         <a href="https://www.instagram.com/deliciasgeorgina" target="_blank" class="social-btn">
-          <img src="https://oscidec.com/portafolio/instagram.jpg" alt="IG" onerror="this.src='https://cdn-icons-png.flaticon.com/512/174/174855.png'">
-          <span>Instagram</span>
+          <img src="https://oscidec.com/portafolio/instagram.jpg" onerror="this.src='https://cdn-icons-png.flaticon.com/512/174/174855.png'"><span>Instagram</span>
         </a>
         <a href="https://www.facebook.com/share/19MmvsbDyi/" target="_blank" class="social-btn">
-          <img src="https://oscidec.com/portafolio/facebook.jpg" alt="FB" onerror="this.src='https://cdn-icons-png.flaticon.com/512/733/733547.png'">
-          <span>Facebook</span>
+          <img src="https://oscidec.com/portafolio/facebook.jpg" onerror="this.src='https://cdn-icons-png.flaticon.com/512/733/733547.png'"><span>Facebook</span>
         </a>
         <a href="https://www.tiktok.com/@deliciasgeorgina" target="_blank" class="social-btn">
-          <img src="https://oscidec.com/portafolio/tiktok.jpg" alt="TT" onerror="this.src='https://cdn-icons-png.flaticon.com/512/3046/3046121.png'">
-          <span>TikTok</span>
+          <img src="https://oscidec.com/portafolio/tiktok.jpg" onerror="this.src='https://cdn-icons-png.flaticon.com/512/3046/3046121.png'"><span>TikTok</span>
         </a>
       </div>
       <a href="mailto:georginaitzel8@gmail.com" class="email-btn">✉️ georginaitzel8@gmail.com</a>
       <a href="https://api.whatsapp.com/send/?phone=50766552649&type=phone_number&app_absent=0" target="_blank" class="whatsapp-btn-big">💬 WhatsApp</a>
     </div>
   </div>
-
 </div>
 
-<footer class="footer">
-  <img src="https://oscidec.com/portafolio/delicias.jpg" class="footer-logo" alt="Logo" onerror="this.style.display='none'">
+<!-- PANTALLA DE JUEGO (estilo Kahoot - pantalla completa) -->
+<div id="gameScreen" class="game-screen hidden">
+  <div class="game-top">
+    <div class="game-progress" id="progressText">1 / 25</div>
+    <div class="game-timer" id="timerText">20</div>
+  </div>
+  <div class="game-scores" id="scoreBoard"></div>
+  <div class="game-question">
+    <h2 id="questionText">Cargando pregunta...</h2>
+  </div>
+  <div class="game-options" id="optionsContainer"></div>
+  <div class="game-feedback" id="feedback"></div>
+</div>
+
+<!-- RESULTADOS -->
+<div id="endScreen" class="hidden" style="position:fixed;inset:0;background:var(--cream);z-index:2000;overflow-y:auto;padding:30px 16px;">
+  <div class="card end-screen" style="max-width:500px;margin:0 auto;">
+    <h1 style="color:var(--brown-dark);">🏁 ¡Juego Terminado!</h1>
+    <div id="finalPodium"></div>
+    <button class="cta-btn" onclick="location.reload()">🔄 Nueva Partida</button>
+  </div>
+</div>
+
+<footer class="footer" id="mainFooter">
+  <img src="https://oscidec.com/portafolio/delicias.jpg" class="footer-logo" onerror="this.style.display='none'">
   <h3>Delicias Georgina</h3>
   <p>Repostería · Panadería · Refresquería</p>
   <p>Desarrollado por <a href="mailto:georginaitzel8@gmail.com">Georgina Itzel Flores Ojo</a></p>
@@ -435,11 +435,7 @@
     <a href="https://www.facebook.com/share/19MmvsbDyi/" target="_blank"><img src="https://oscidec.com/portafolio/facebook.jpg" onerror="this.src='https://cdn-icons-png.flaticon.com/512/733/733547.png'"></a>
     <a href="https://www.tiktok.com/@deliciasgeorgina" target="_blank"><img src="https://oscidec.com/portafolio/tiktok.jpg" onerror="this.src='https://cdn-icons-png.flaticon.com/512/3046/3046121.png'"></a>
   </div>
-  <p><a href="https://api.whatsapp.com/send/?phone=50766552649&type=phone_number&app_absent=0" target="_blank">WhatsApp</a> · <a href="mailto:georginaitzel8@gmail.com">georginaitzel8@gmail.com</a></p>
-  <div class="footer-bottom">
-    © 2026 Algebraic Duel · Universidad Del Istmo<br>
-    Matemáticas I · VIRT-2026-2-AGO-[3-B] · Profesora: Mauyuri Meza
-  </div>
+  <div class="footer-bottom">© 2026 Algebraic Duel · Universidad Del Istmo · Profesora: Mauyuri Meza</div>
 </footer>
 
 <script type="module">
@@ -460,83 +456,85 @@
   const app = initializeApp(firebaseConfig);
   const db = getDatabase(app);
 
-  // Estado
   let roomCode = null, playerId = null, isHost = false, myName = "";
   let players = {}, currentQuestion = 0;
-  const totalQuestions = 20;
+  const totalQuestions = 25;
+  const TIME = 20;
   let timerInterval = null, canAnswer = false;
 
+  const shapes = ['🔺', '🔷', '⬛', '🔸']; // formas para los botones
+
   const questions = [
-    { q: "¿Cómo se clasifica: −5x (un solo término)?", options: ["Monomio", "Binomio", "Trinomio", "Polinomio"], correct: 0 },
-    { q: "Clasifica: 2x + 3y", options: ["Monomio", "Binomio", "Trinomio", "Ninguna"], correct: 1 },
-    { q: "Clasifica: −2x + 3y − 5z", options: ["Monomio", "Binomio", "Trinomio", "Ninguna"], correct: 2 },
-    { q: "Resuelve: 3x + 5x", options: ["8x²", "8x", "15x", "2x"], correct: 1 },
-    { q: "Simplifica: (5x − 2) − (2x + 1)", options: ["3x − 3", "7x − 1", "3x + 1", "3x − 1"], correct: 0 },
-    { q: "Multiplica: (2x) · (3x²)", options: ["5x³", "6x²", "6x³", "5x²"], correct: 2 },
-    { q: "¿Expresión de 4 o más términos?", options: ["Binomio", "Trinomio", "Polinomio general", "Monomio"], correct: 2 },
-    { q: "Divide: 10x⁴ ÷ 2x²", options: ["5x²", "8x²", "5x", "20x²"], correct: 0 },
-    { q: "Suma: (2x² + 3x − 1) + (x² − 2x + 4)", options: ["3x² + x + 3", "3x² + x + 5", "2x² + x + 3", "3x² − x + 3"], correct: 0 },
-    { q: "Multiplica: (x + 2)(x + 3)", options: ["x² + 5x + 6", "x² + 6x + 5", "x² + 5x + 5", "x² + 6x + 6"], correct: 0 },
-    { q: "Eleva: (x + 1)²", options: ["x² + 1", "x² + 2x + 1", "x² + x + 1", "x² + 2x + 2"], correct: 1 },
-    { q: "Factoriza: x² − 4", options: ["(x+2)(x+2)", "(x−2)(x−2)", "(x+2)(x−2)", "(x+4)(x−1)"], correct: 2 },
-    { q: "Resuelve: 2x² · 3x³", options: ["5x⁵", "6x⁵", "6x⁶", "5x⁶"], correct: 1 },
-    { q: "Simplifica: −3x + 2x − 5x", options: ["−6x", "−4x", "−8x", "6x"], correct: 0 },
-    { q: "Grado de: 4x³ + 2x² − 5x + 1", options: ["2", "3", "4", "1"], correct: 1 },
-    { q: "Multiplica: (3x)(2x + 1)", options: ["6x² + 3x", "5x² + 3x", "6x + 3", "6x² + 1"], correct: 0 },
-    { q: "Coeficiente principal: 4x³ + 2x² − 5x + 1", options: ["4", "2", "-5", "1"], correct: 0 },
-    { q: "¿Cuántos términos tiene: 3x² + 2y − 5?", options: ["1", "2", "3", "4"], correct: 2 },
-    { q: "Divide: 15x⁶ ÷ 5x³", options: ["3x²", "3x³", "3x⁹", "10x³"], correct: 1 },
-    { q: "¿Qué expresión es un trinomio?", options: ["3x", "2x + 5", "x² + 2x + 1", "x³ + x² + x + 1"], correct: 2 }
+    { q: "Simplifica: (3x² + 5x − 2) − (x² − 4x + 7)", options: ["2x² + 9x − 9", "2x² + 9x + 5", "4x² + x − 9", "2x² − 9x − 9"], correct: 0 },
+    { q: "Multiplica: (2x − 3)(x + 5)", options: ["2x² + 7x − 15", "2x² + 10x − 15", "2x² + 7x + 15", "2x² − 7x − 15"], correct: 0 },
+    { q: "Factoriza: x² − 9", options: ["(x−3)²", "(x+3)²", "(x+3)(x−3)", "(x−9)(x+1)"], correct: 2 },
+    { q: "Grado de 4x⁵ − 2x³ + x − 7", options: ["3", "4", "5", "7"], correct: 2 },
+    { q: "(5x³)(2x⁴) = ?", options: ["10x⁷", "10x¹²", "7x⁷", "10x⁶"], correct: 0 },
+    { q: "12x⁵ ÷ 3x² = ?", options: ["4x³", "4x⁷", "9x³", "4x²"], correct: 0 },
+    { q: "Expande: (x + 4)²", options: ["x² + 8x + 16", "x² + 4x + 16", "x² + 8x + 8", "x² + 16"], correct: 0 },
+    { q: "Clasifica: 7x³ − 2x² + 5x − 1", options: ["Trinomio", "Binomio", "Polinomio de 4 términos", "Monomio"], correct: 2 },
+    { q: "(4x² − 3x + 2) + (x² + 5x − 6)", options: ["5x² + 2x − 4", "5x² + 2x + 4", "3x² + 2x − 4", "5x² − 2x − 4"], correct: 0 },
+    { q: "Factoriza: x² + 6x + 9", options: ["(x+3)²", "(x+3)(x−3)", "(x+9)(x+1)", "(x+6)(x+3)"], correct: 0 },
+    { q: "Coeficiente principal de −3x⁴ + 5x² − 2", options: ["−3", "5", "−2", "4"], correct: 0 },
+    { q: "(3x²y)(4xy³) = ?", options: ["12x³y⁴", "12x²y³", "7x³y⁴", "12x³y³"], correct: 0 },
+    { q: "(2x − 5)² = ?", options: ["4x² − 20x + 25", "4x² − 10x + 25", "4x² + 20x + 25", "4x² − 25"], correct: 0 },
+    { q: "18x⁶ ÷ 6x³ = ?", options: ["3x³", "3x²", "12x³", "3x⁹"], correct: 0 },
+    { q: "Términos de: 5x⁴ − 2x³ + x² − 7x + 3", options: ["3", "4", "5", "6"], correct: 2 },
+    { q: "Factoriza: x² − 16", options: ["(x−4)²", "(x+4)²", "(x+4)(x−4)", "(x−8)(x+2)"], correct: 2 },
+    { q: "(x − 2)(x + 7) = ?", options: ["x² + 5x − 14", "x² + 9x − 14", "x² − 5x − 14", "x² + 5x + 14"], correct: 0 },
+    { q: "3(2x − 4) − 2(x + 5) = ?", options: ["4x − 22", "4x − 2", "8x − 22", "4x + 22"], correct: 0 },
+    { q: "¿Qué es 9x²?", options: ["Binomio", "Trinomio", "Monomio", "Polinomio"], correct: 2 },
+    { q: "(2x + 3)(2x − 3) = ?", options: ["4x² − 9", "4x² + 9", "4x² − 12x − 9", "4x² + 12x − 9"], correct: 0 },
+    { q: "Simplifica: (x³y²)(x²y⁴)", options: ["x⁵y⁶", "x⁶y⁶", "x⁵y⁸", "x⁶y⁸"], correct: 0 },
+    { q: "Factoriza: x² − 5x + 6", options: ["(x−2)(x−3)", "(x+2)(x+3)", "(x−2)(x+3)", "(x+2)(x−3)"], correct: 0 },
+    { q: "Grado de 2x³y² + 5xy − 3", options: ["3", "5", "2", "1"], correct: 1 },
+    { q: "(x + 2)³ = ?", options: ["x³ + 6x² + 12x + 8", "x³ + 8", "x³ + 6x + 8", "x³ + 3x² + 3x + 8"], correct: 0 },
+    { q: "Simplifica: 5x(2x − 3) − 2(x² + 4)", options: ["8x² − 15x − 8", "10x² − 15x − 8", "10x² − 15x + 8", "8x² − 15x + 8"], correct: 1 }
   ];
 
-  // Navegación general
+  // UI helpers
   window.showSection = function(name) {
     document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
     document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
     document.getElementById('section-' + name)?.classList.add('active');
     document.getElementById('nav-' + name)?.classList.add('active');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   window.toggleAccordion = function(header) {
     const content = header.nextElementSibling;
-    const isActive = header.classList.contains('active');
+    const active = header.classList.contains('active');
     document.querySelectorAll('.accordion-header').forEach(h => {
       h.classList.remove('active');
       h.nextElementSibling.classList.remove('show');
     });
-    if (!isActive) {
-      header.classList.add('active');
-      content.classList.add('show');
-    }
+    if (!active) { header.classList.add('active'); content.classList.add('show'); }
   }
 
-  // Navegación dentro de Jugar
   window.showPlayScreen = function(name) {
-    ['home','create','join','lobby','game','end'].forEach(s => {
+    ['home','create','join','lobby'].forEach(s => {
       document.getElementById('play-' + s)?.classList.add('hidden');
     });
     document.getElementById('play-' + name)?.classList.remove('hidden');
   }
 
-  // Crear Sala
+  function hideUI(hide) {
+    document.getElementById('mainNav').classList.toggle('hidden-nav', hide);
+    document.getElementById('waFloat').classList.toggle('hide', hide);
+    document.getElementById('mainContent').style.display = hide ? 'none' : 'block';
+    document.getElementById('mainFooter').style.display = hide ? 'none' : 'block';
+  }
+
+  // Firebase
   window.createRoom = async function() {
     myName = document.getElementById('hostName').value.trim();
     if (!myName) return alert('Escribe tu nombre');
-
     roomCode = 'DUEL-' + Math.floor(1000 + Math.random() * 9000);
     playerId = 'host_' + Date.now();
     isHost = true;
-
     await set(ref(db, 'rooms/' + roomCode), {
-      status: 'waiting',
-      hostId: playerId,
-      currentQuestion: 0,
-      players: {
-        [playerId]: { name: myName, score: 0, correctAnswers: 0 }
-      }
+      status: 'waiting', hostId: playerId, currentQuestion: 0,
+      players: { [playerId]: { name: myName, score: 0 } }
     });
-
     document.getElementById('displayCode').textContent = roomCode;
     document.getElementById('hostControls').classList.remove('hidden');
     document.getElementById('waitingMessage').classList.add('hidden');
@@ -544,25 +542,20 @@
     listenToRoom();
   }
 
-  // Unirse
   window.joinRoom = async function() {
     roomCode = document.getElementById('joinCode').value.trim().toUpperCase();
     myName = document.getElementById('playerName').value.trim();
-    if (!roomCode || !myName) return alert('Completa todos los campos');
-
-    const snapshot = await get(ref(db, 'rooms/' + roomCode));
-    if (!snapshot.exists()) return alert('La sala no existe');
-    const room = snapshot.val();
+    if (!roomCode || !myName) return alert('Completa los campos');
+    const snap = await get(ref(db, 'rooms/' + roomCode));
+    if (!snap.exists()) return alert('Sala no existe');
+    const room = snap.val();
     if (room.status !== 'waiting') return alert('La partida ya comenzó');
     if (Object.keys(room.players || {}).length >= 4) return alert('Sala llena');
-
     playerId = 'player_' + Date.now();
     isHost = false;
-
     await update(ref(db, 'rooms/' + roomCode + '/players'), {
-      [playerId]: { name: myName, score: 0, correctAnswers: 0 }
+      [playerId]: { name: myName, score: 0 }
     });
-
     document.getElementById('displayCode').textContent = roomCode;
     document.getElementById('hostControls').classList.add('hidden');
     document.getElementById('waitingMessage').classList.remove('hidden');
@@ -576,22 +569,18 @@
       if (!room) return;
       players = room.players || {};
       renderPlayers();
-
       if (isHost) {
         const count = Object.keys(players).length;
         const btn = document.getElementById('btnStart');
         btn.disabled = count < 4;
         btn.textContent = count < 4 ? `🎮 Iniciar (${count}/4)` : '🎮 ¡Iniciar Juego!';
       }
-
       if (room.status === 'playing') {
         currentQuestion = room.currentQuestion || 0;
-        showPlayScreen('game');
+        enterGameMode();
         loadQuestion();
       }
-      if (room.status === 'finished') {
-        showResults(room.players);
-      }
+      if (room.status === 'finished') showResults(room.players);
     });
   }
 
@@ -611,13 +600,18 @@
     await update(ref(db, 'rooms/' + roomCode), { status: 'playing', currentQuestion: 0 });
   }
 
+  function enterGameMode() {
+    hideUI(true);
+    document.getElementById('gameScreen').classList.remove('hidden');
+  }
+
   function loadQuestion() {
     if (currentQuestion >= totalQuestions) {
       if (isHost) update(ref(db, 'rooms/' + roomCode), { status: 'finished' });
       return;
     }
     const q = questions[currentQuestion];
-    document.getElementById('progressText').textContent = `Pregunta ${currentQuestion+1} de ${totalQuestions}`;
+    document.getElementById('progressText').textContent = `${currentQuestion + 1} / ${totalQuestions}`;
     document.getElementById('questionText').textContent = q.q;
     document.getElementById('feedback').textContent = '';
 
@@ -625,26 +619,27 @@
     cont.innerHTML = '';
     q.options.forEach((opt, idx) => {
       const btn = document.createElement('button');
-      btn.className = 'option-btn';
-      btn.textContent = String.fromCharCode(65+idx) + '. ' + opt;
+      btn.className = 'game-option';
+      btn.innerHTML = `<span class="shape">${shapes[idx]}</span> ${opt}`;
       btn.onclick = () => answer(idx);
       cont.appendChild(btn);
     });
 
-    let time = 10;
-    document.getElementById('timerText').textContent = time;
+    let time = TIME;
+    const timerEl = document.getElementById('timerText');
+    timerEl.textContent = time;
+    timerEl.classList.remove('critical');
     canAnswer = true;
     clearInterval(timerInterval);
     timerInterval = setInterval(() => {
       time--;
-      document.getElementById('timerText').textContent = time;
-      const pct = (time/10)*100;
-      document.getElementById('timerCircle').style.background = `conic-gradient(var(--coral) ${pct}%, var(--beige) ${pct}%)`;
+      timerEl.textContent = time;
+      if (time <= 5) timerEl.classList.add('critical');
       if (time <= 0) {
         clearInterval(timerInterval);
         canAnswer = false;
         document.getElementById('feedback').textContent = '⏰ Tiempo agotado';
-        setTimeout(nextQ, 1500);
+        setTimeout(nextQ, 1600);
       }
     }, 1000);
     updateScores();
@@ -654,29 +649,32 @@
     if (!canAnswer) return;
     canAnswer = false;
     clearInterval(timerInterval);
-    document.querySelectorAll('.option-btn').forEach(b => b.disabled = true);
+    const buttons = document.querySelectorAll('.game-option');
+    buttons.forEach(b => b.disabled = true);
 
     const q = questions[currentQuestion];
+    let points = 0;
     if (selected === q.correct) {
-      const newScore = (players[playerId]?.score || 0) + 10;
-      await update(ref(db, `rooms/${roomCode}/players/${playerId}`), {
-        score: newScore,
-        correctAnswers: (players[playerId]?.correctAnswers || 0) + 1
-      });
-      document.getElementById('feedback').textContent = '✅ ¡Correcto! +10';
-      document.getElementById('feedback').style.color = '#2a9d8f';
+      points = 10;
+      buttons[selected].classList.add('correct');
+      document.getElementById('feedback').textContent = '✅ +10 puntos';
+      document.getElementById('feedback').style.color = '#2ecc71';
     } else {
-      document.getElementById('feedback').textContent = '❌ Incorrecto';
-      document.getElementById('feedback').style.color = '#e63946';
+      points = -5;
+      buttons[selected].classList.add('wrong');
+      buttons[q.correct].classList.add('correct');
+      document.getElementById('feedback').textContent = '❌ −5 puntos';
+      document.getElementById('feedback').style.color = '#e74c3c';
     }
-    setTimeout(nextQ, 1800);
+
+    const newScore = Math.max(0, (players[playerId]?.score || 0) + points);
+    await update(ref(db, `rooms/${roomCode}/players/${playerId}`), { score: newScore });
+    setTimeout(nextQ, 2000);
   }
 
   async function nextQ() {
     currentQuestion++;
-    if (isHost) {
-      await update(ref(db, 'rooms/' + roomCode), { currentQuestion });
-    }
+    if (isHost) await update(ref(db, 'rooms/' + roomCode), { currentQuestion });
     loadQuestion();
   }
 
@@ -684,19 +682,20 @@
     const board = document.getElementById('scoreBoard');
     board.innerHTML = '';
     for (const id in players) {
-      board.innerHTML += `<div class="player-card"><strong>${players[id].name}</strong><br>${players[id].score||0} pts</div>`;
+      board.innerHTML += `<div class="game-score-card"><strong>${players[id].score || 0}</strong>${players[id].name}</div>`;
     }
   }
 
   function showResults(finalPlayers) {
-    showPlayScreen('end');
-    const sorted = Object.values(finalPlayers).sort((a,b) => (b.score||0) - (a.score||0));
-    const medals = ['🥇','🥈','🥉','💎'];
+    document.getElementById('gameScreen').classList.add('hidden');
+    document.getElementById('endScreen').classList.remove('hidden');
+    const sorted = Object.values(finalPlayers).sort((a, b) => (b.score || 0) - (a.score || 0));
+    const medals = ['🥇', '🥈', '🥉', '💎'];
     let html = '';
-    sorted.forEach((p,i) => {
+    sorted.forEach((p, i) => {
       html += `<div class="podium-card">
-        <div class="podium-medal">${medals[i]||'•'}</div>
-        <div><strong>${p.name}</strong><br><span style="color:var(--gold);font-weight:700">${p.score||0} pts</span></div>
+        <div class="podium-medal">${medals[i] || '•'}</div>
+        <div><strong>${p.name}</strong><br><span style="color:var(--gold);font-weight:700;font-size:1.2rem">${p.score || 0} pts</span></div>
       </div>`;
     });
     document.getElementById('finalPodium').innerHTML = html;
